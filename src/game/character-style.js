@@ -21,7 +21,7 @@ export const SKIN_TONES = [
   '#8f5a3a', // 7 chestnut, warm red undertone
   '#4a2c20', // 8 ebony, deep cool undertone
 ];
-export const SKIN_NAMES = ['Rosy', 'Peach', 'Tan', 'Cocoa', 'Porcelain', 'Honey', 'Olive', 'Chestnut', 'Ebony'];
+export const SKIN_NAMES = ['로지', '피치', '탠', '코코아', '포슬린', '허니', '올리브', '체스트넛', '에보니'];
 
 // ---- outfits: tee cut, graphic language (pattern → cloth shader), coordinated colourway. Base colours stay in the
 // neutral / earth family so every team ink (orange, cobalt, pink, mint, lemon, grape, aqua, cherry, lime, magenta)
@@ -38,7 +38,7 @@ export const OUTFITS = [
   { shirt: '#f2f2ef', shorts: '#23262d', shoe: '#23262d', sole: '#f2f1ec', sock: '#f7f7f4', strap: '#23262d', pattern: 8 },
   { shirt: '#1f2a44', shorts: '#1f2a44', shoe: '#f2f1ec', sole: '#1f2a44', sock: '#f7f7f4', strap: '#161b29', pattern: 9 },
 ];
-export const OUTFIT_NAMES = ['Basic Ringer', 'Night Pinstripe', 'Raglan Runner', 'Chevron Tee', 'Breton Stripe', 'Splatter Tee', 'Splat Camo', 'Dip-Dye Tee', 'Pro Jersey', 'Track Top'];
+export const OUTFIT_NAMES = ['베이직 링거', '나이트 핀스트라이프', '래글런 러너', '셰브런 티', '브르타뉴 스트라이프', '스플래터 티', '스플랫 카모', '딥다이 티', '프로 저지', '트랙 탑'];
 
 // ---- eyes: iris gradient [top, bottom] ---------------------------------------------------------------------------
 export const IRIS = [
@@ -51,34 +51,34 @@ export const IRIS = [
   ['#e4f4ff', '#4f7fc4'], // 6 frost
   ['#ff8f6b', '#b3121c'], // 7 ember
 ];
-export const IRIS_NAMES = ['Amber', 'Lagoon', 'Violet', 'Lime', 'Rose', 'Hazel', 'Frost', 'Ember'];
+export const IRIS_NAMES = ['호박', '라군', '바이올렛', '라임', '로즈', '헤이즐', '프로스트', '잔불'];
 
 // ---- hair: built by character-geo.js (STYLES, same order). Tentacle hair always takes the team ink colour. ----------
-export const HAIR_STYLE_NAMES = ['Tide', 'Spike', 'Twin', 'Bob', 'Pony', 'Crest', 'Knot', 'Swoop'];
+export const HAIR_STYLE_NAMES = ['파도', '스파이크', '트윈', '보브', '포니', '크레스트', '매듭', '스우프'];
 export const HAIR_STYLES = HAIR_STYLE_NAMES.length;
 
 // ---- headgear (optional, `hat`): built into the hair mesh by character-geo.js (HAT_KINDS, same order). Every style's
 // tentacles are re-rooted under the rim so nothing clips; styles whose shape sits on top switch to a hat variant
 // (low ponytail, low bun, lower twin ties, back flicks). 0 = none.
 export const HATS = ['none', 'cap', 'beanie', 'bucket'];
-export const HAT_NAMES = ['None', 'Snapback', 'Beanie', 'Bucket Hat'];
+export const HAT_NAMES = ['없음', '스냅백', '비니', '버킷 햇'];
 
 // ---- brows (optional, `brows`): shape of the painted-ink brow strokes. 0 = classic.
 export const BROWS = ['classic', 'bold', 'arched', 'straight'];
-export const BROW_NAMES = ['Classic', 'Bold', 'Arched', 'Straight'];
+export const BROW_NAMES = ['클래식', '굵게', '아치', '일자'];
 
 // ---- named full looks ("characters") the locker can offer one-click -----------------------------------------------
 export const PRESETS = [
-  { id: 'rookie', name: 'Rookie', blurb: 'Fresh off the ferry, ringer tee and long tentacles.', style: { hair: 0, skin: 0, outfit: 0, eyes: 0, hat: 0, brows: 0 } },
-  { id: 'dash', name: 'Dash', blurb: 'Track-top sprinter with a spiky quiff.', style: { hair: 1, skin: 5, outfit: 9, eyes: 1, hat: 0, brows: 1 } },
-  { id: 'pip', name: 'Pip', blurb: 'Twin tails, breton stripes, always first to the ferry deck.', style: { hair: 2, skin: 4, outfit: 4, eyes: 4, hat: 0, brows: 2 } },
-  { id: 'coral', name: 'Coral', blurb: 'Dip-dyed and unbothered.', style: { hair: 3, skin: 3, outfit: 7, eyes: 5, hat: 0, brows: 0 } },
-  { id: 'marlo', name: 'Marlo', blurb: 'Ponytail up, jersey on, game face.', style: { hair: 4, skin: 1, outfit: 8, eyes: 7, hat: 0, brows: 1 } },
-  { id: 'riptide', name: 'Riptide', blurb: 'Mohawk crest and a splatter tee. Loud.', style: { hair: 5, skin: 7, outfit: 5, eyes: 3, hat: 0, brows: 3 } },
-  { id: 'nori', name: 'Nori', blurb: 'Low bun under a bucket hat, splat camo, very patient charger main.', style: { hair: 6, skin: 6, outfit: 6, eyes: 2, hat: 3, brows: 3 } },
-  { id: 'suki', name: 'Suki', blurb: 'Side-swept and too cool for the lobby.', style: { hair: 7, skin: 8, outfit: 1, eyes: 6, hat: 0, brows: 2 } },
-  { id: 'kelp', name: 'Kelp', blurb: 'Beanie season, all season.', style: { hair: 3, skin: 2, outfit: 2, eyes: 3, hat: 2, brows: 0 } },
-  { id: 'skipper', name: 'Skipper', blurb: 'Snapback, raglan, harbour regular.', style: { hair: 0, skin: 5, outfit: 3, eyes: 0, hat: 1, brows: 1 } },
+  { id: 'rookie', name: '루키', blurb: '페리에서 막 내린, 링거 티에 긴 촉수.', style: { hair: 0, skin: 0, outfit: 0, eyes: 0, hat: 0, brows: 0 } },
+  { id: 'dash', name: '대시', blurb: '뾰족 앞머리의 트랙 탑 스프린터.', style: { hair: 1, skin: 5, outfit: 9, eyes: 1, hat: 0, brows: 1 } },
+  { id: 'pip', name: '핍', blurb: '트윈 테일에 브르타뉴 스트라이프, 페리 데크에 늘 먼저 도착.', style: { hair: 2, skin: 4, outfit: 4, eyes: 4, hat: 0, brows: 2 } },
+  { id: 'coral', name: '코랄', blurb: '딥다이 염색에 무심한 태도.', style: { hair: 3, skin: 3, outfit: 7, eyes: 5, hat: 0, brows: 0 } },
+  { id: 'marlo', name: '말로', blurb: '포니테일 올려 묶고 저지 차림, 승부욕 충만.', style: { hair: 4, skin: 1, outfit: 8, eyes: 7, hat: 0, brows: 1 } },
+  { id: 'riptide', name: '립타이드', blurb: '모히칸 크레스트에 스플래터 티. 시끄러움.', style: { hair: 5, skin: 7, outfit: 5, eyes: 3, hat: 0, brows: 3 } },
+  { id: 'nori', name: '노리', blurb: '버킷 햇 아래 낮은 번, 스플랫 카모, 인내심 강한 차저 메인.', style: { hair: 6, skin: 6, outfit: 6, eyes: 2, hat: 3, brows: 3 } },
+  { id: 'suki', name: '수키', blurb: '옆으로 넘긴 머리, 로비보다 쿨한 태도.', style: { hair: 7, skin: 8, outfit: 1, eyes: 6, hat: 0, brows: 2 } },
+  { id: 'kelp', name: '켈프', blurb: 'Beanie season, all season.', style: { hair: 3, skin: 2, outfit: 2, eyes: 3, hat: 2, brows: 0 } },
+  { id: 'skipper', name: '스키퍼', blurb: '스냅백에 래글런, 항구 단골.', style: { hair: 0, skin: 5, outfit: 3, eyes: 0, hat: 1, brows: 1 } },
 ];
 
 const wrap = (v, n) => ((Math.round(v) % n) + n) % n;

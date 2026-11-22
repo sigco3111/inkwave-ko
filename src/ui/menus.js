@@ -33,85 +33,85 @@ const LIGHT = new Set(['main', 'loadout', 'setup', 'locker', 'settings', 'howto'
 const STAGE_DIR = new URL('../../assets/stages/', import.meta.url).href;
 const stageArt = (id, time, small) => `${STAGE_DIR}${id}-${time === 'dusk' ? 'dusk' : 'day'}${small ? '-sm' : ''}.webp`;
 const TIME_INFO = {
-  day: { label: 'DAY', text: 'Bright sun, crisp shadows.' },
-  dusk: { label: 'DUSK', text: 'Low sun, long shadows, harbour lights.' },
+  day: { label: '낮', text: '밝은 햇살, 선명한 그림자.' },
+  dusk: { label: '황혼', text: '낮은 해, 긴 그림자, 항구의 불빛.' },
 };
 
 const TIPS = [
-  'Swim in your own ink to zip around and refill your tank.',
-  'Hold [SHIFT] to dive into your ink — you are nearly invisible while swimming.',
-  'Enemy ink slows you down and chips away at your health. Paint over it!',
-  'Swim up any wall you have inked to reach high ground.',
-  'Only turf counts when time runs out. Splats just buy you space.',
-  'Your special gauge fills as you ink. Press [F] when it glows!',
-  'A Splat Bomb costs most of your tank — throw it where it claims the most turf.',
-  'Chargers splat in one fully-charged shot. Keep moving and use cover.',
-  'Rollers paint huge stripes. Flick the roller to splash foes at range.',
-  'Low on ink? Dive in, refill, then push again.',
-  'Hold [TAB] to open the big map and spot unpainted turf.',
+  '내 잉크 속을 수영하면 빠르게 움직이며 잉크를 채워요.',
+  '[SHIFT]를 길게 눌러 잉크 속으로 잠수하세요. 수영 중엔 거의 보이지 않아요.',
+  '적의 잉크는 느려지고 체력도 깎여요. 위에 덧칠하세요!',
+  '잉크 칠한 벽은 수영해서 올라가 고지를 차지해요.',
+  '시간이 끝나면 칠한 터프만 계산돼요. 스플랫은 공간 확보용이에요.',
+  '잉크를 칠하면 스페셜 게이지가 차요. 빛나면 [F]를 누르세요!',
+  '스플랫 밤은 탱크 대부분을 써요. 가장 넓게 칠할 곳에 던지세요.',
+  '차저는 풀차지 한 방에 스플랫. 계속 움직이며 엄폐하세요.',
+  '롤러는 넓은 띠를 칠해요. 튕겨 올려 멀리서도 적을 적셔요.',
+  '잉크가 부족하면 잠수해서 채우고 다시 밀어붙이세요.',
+  '[TAB]을 길게 눌러 큰 지도를 열고 안 칠한 곳을 찾으세요.',
 ];
 const DIFF_INFO = {
-  easy: { pips: 1, text: 'Relaxed bots with shaky aim. Great for learning the ropes.' },
-  normal: { pips: 2, text: 'Balanced bots that push turf and fight back.' },
-  hard: { pips: 3, text: 'Sharp, aggressive bots that punish mistakes. Bring your A-game.' },
+  easy: { pips: 1, text: '편안한 봇, 조준이 흔들려요. 배우기에 딱 좋아요.' },
+  normal: { pips: 2, text: '균형 잡힌 봇, 터프를 밀며 반격해요.' },
+  hard: { pips: 3, text: '날카롭고 공격적인 봇, 실수를 놓치지 않아요. 각오하세요.' },
 };
-const STAT_LABELS = [['range', 'Range'], ['damage', 'Damage'], ['rate', 'Fire rate'], ['mobility', 'Mobility'], ['paint', 'Ink coverage']];
-const KIND_LABEL = { shooter: 'Shooter', roller: 'Roller', charger: 'Charger', blaster: 'Blaster', dualies: 'Dualies', slosher: 'Slosher', splatling: 'Splatling' };
+const STAT_LABELS = [['range', '사거리'], ['damage', '공격력'], ['rate', '연사력'], ['mobility', '기동력'], ['paint', '칠하기']];
+const KIND_LABEL = { shooter: '슈터', roller: '롤러', charger: '차저', blaster: '블래스터', dualies: '듀얼리', slosher: '슬로셔', splatling: '스플랫링' };
 const STAT_ICONS = { range: GLYPHS.target, damage: GLYPHS.bolt, rate: GLYPHS.clock, mobility: GLYPHS.feather, paint: GLYPHS.drop };
 const LOCKER_TABS = [
-  { id: 'kids', label: 'SQUIDKIDS', icon: 'users', sections: ['_presets'] },
-  { id: 'hair', label: 'HAIR', icon: 'hair', sections: ['hair', 'hat'] },
-  { id: 'face', label: 'FACE', icon: 'eye', sections: ['eyes', 'brows', 'skin'] },
-  { id: 'outfit', label: 'OUTFIT', icon: 'shirt', sections: ['outfit'] },
+  { id: 'kids', label: '오징어키즈', icon: 'users', sections: ['_presets'] },
+  { id: 'hair', label: '머리', icon: 'hair', sections: ['hair', 'hat'] },
+  { id: 'face', label: '얼굴', icon: 'eye', sections: ['eyes', 'brows', 'skin'] },
+  { id: 'outfit', label: '옷', icon: 'shirt', sections: ['outfit'] },
 ];
 const MENU_DESC = {
-  play: 'Pick a stage, day or dusk, and jump into a 4 v 4 Turf War',
-  loadout: 'Choose your weapon: stats, sub and special for every kind',
-  locker: 'Choose your squidkid — tentacles, headgear, eyes, skin and outfit',
-  settings: 'Controls, video, audio and gameplay options',
-  howto: 'The rules in 30 seconds, plus every control',
-  credits: 'The squidkids and code behind INKWAVE',
+  play: '스테이지와 낮/황혼을 고르고 4 대 4 터프 워로 뛰어들어요',
+  loadout: '무기 고르기: 모든 종류의 능력치, 서브 무기, 스페셜',
+  locker: '오징어키즈 꾸미기: 촉수, 모자, 눈, 피부, 옷',
+  settings: '조작, 화면, 소리, 게임플레이 옵션',
+  howto: '30초 만에 배우는 규칙과 모든 조작법',
+  credits: 'INKWAVE를 만든 오징어키즈와 코드',
 };
 
 const pctFmt = (v) => Math.round(v * 100) + '%';
 const SETTINGS_TABS = [
-  { id: 'controls', label: 'Controls', icon: 'gamepad', rows: [
-    { key: 'sensitivity', label: 'Mouse sensitivity', type: 'slider', min: 0.2, max: 3, step: 0.05, fmt: (v) => v.toFixed(2) + '×', help: 'How far the camera turns for each bit of mouse movement.' },
-    { key: 'padSensitivity', label: 'Controller sensitivity', type: 'slider', min: 0.2, max: 3, step: 0.05, fmt: (v) => v.toFixed(2) + '×', help: 'Camera turn speed with the right stick.' },
-    { key: 'invertY', label: 'Invert vertical look', type: 'toggle', help: 'Push up to look down, like a flight stick.' },
-    { key: 'aimAssist', label: 'Aim assist (controller)', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Gently slows and steers your aim onto nearby rivals when you play with a controller.' },
-    { key: 'aimAssistMouse', label: 'Aim assist for mouse', type: 'toggle', help: 'Also apply a lighter aim assist when aiming with a mouse. Off by default.' },
-    { key: '_howto', label: 'Controls reference', type: 'link', help: 'Every keyboard, mouse and controller binding in one place.' },
+  { id: 'controls', label: '조작', icon: 'gamepad', rows: [
+    { key: 'sensitivity', label: '마우스 감도', type: 'slider', min: 0.2, max: 3, step: 0.05, fmt: (v) => v.toFixed(2) + '×', help: '마우스를 움직일 때 카메라가 도는 정도.' },
+    { key: 'padSensitivity', label: '컨트롤러 감도', type: 'slider', min: 0.2, max: 3, step: 0.05, fmt: (v) => v.toFixed(2) + '×', help: '오른쪽 스틱으로 카메라를 도는 속도.' },
+    { key: 'invertY', label: '상하 시점 반전', type: 'toggle', help: '비행 스틱처럼 위로 밀면 아래를 봐요.' },
+    { key: 'aimAssist', label: '조준 보조 (컨트롤러)', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '컨트롤러 사용 시 가까운 상대에게 조준을 살짝 늦추고 유도해요.' },
+    { key: 'aimAssistMouse', label: '마우스 조준 보조', type: 'toggle', help: '마우스 조준에도 약한 조준 보조를 적용해요. 기본은 꺼짐.' },
+    { key: '_howto', label: '조작법 보기', type: 'link', help: '키보드, 마우스, 컨트롤러의 모든 키 배치를 한곳에.' },
   ] },
-  { id: 'video', label: 'Video', icon: 'monitor', rows: [
-    { key: 'quality', label: 'Graphics quality', type: 'seg', options: [['low', 'Low'], ['medium', 'Med'], ['high', 'High'], ['ultra', 'Ultra']], help: 'Resolution scale, shadow detail, anti-aliasing and particle counts.' },
-    { key: 'fov', label: 'Field of view', type: 'slider', min: 65, max: 100, step: 1, fmt: (v) => Math.round(v) + '°', help: 'Wider shows more of the turf around you.' },
-    { key: 'shadows', label: 'Shadows', type: 'toggle', help: 'Soft sun shadows. Turn off for extra speed on older machines.' },
-    { key: 'bloom', label: 'Bloom glow', type: 'toggle', help: 'A soft glow around bright ink and specials.' },
-    { key: 'showFps', label: 'Show FPS counter', type: 'toggle', help: 'Displays frames per second in the corner during matches.' },
+  { id: 'video', label: '화면', icon: 'monitor', rows: [
+    { key: 'quality', label: '그래픽 품질', type: 'seg', options: [['low', '낮음'], ['medium', '중간'], ['high', '높음'], ['ultra', '최고']], help: '해상도 배율, 그림자 디테일, 안티앨리어싱, 파티클 수.' },
+    { key: 'fov', label: '시야각', type: 'slider', min: 65, max: 100, step: 1, fmt: (v) => Math.round(v) + '°', help: '넓을수록 주변 터프가 더 보여요.' },
+    { key: 'shadows', label: '그림자', type: 'toggle', help: '부드러운 햇살 그림자. 오래된 기기에선 끄면 빨라져요.' },
+    { key: 'bloom', label: '블룸 광원', type: 'toggle', help: '밝은 잉크와 스페셜 주변의 부드러운 빛.' },
+    { key: 'showFps', label: 'FPS 표시', type: 'toggle', help: '매치 중 화면 구석에 초당 프레임 수를 보여요.' },
   ] },
-  { id: 'audio', label: 'Audio', icon: 'speaker', rows: [
-    { key: 'master', label: 'Master volume', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Overall loudness of everything.' },
-    { key: 'music', label: 'Music', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Menu and battle soundtrack.' },
-    { key: 'sfx', label: 'Sound effects', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Weapons, splats, voices and menu sounds.' },
+  { id: 'audio', label: '소리', icon: 'speaker', rows: [
+    { key: 'master', label: '전체 음량', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '모든 소리의 크기.' },
+    { key: 'music', label: '음악', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '메뉴와 배틀 사운드트랙.' },
+    { key: 'sfx', label: '효과음', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '무기, 스플랫, 목소리, 메뉴 소리.' },
   ] },
-  { id: 'gameplay', label: 'Gameplay', icon: 'swords', rows: [
-    { key: 'cameraShake', label: 'Camera shake', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Screen shake from explosions, slams and hits.' },
-    { key: 'rumble', label: 'Vibration', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: 'Controller rumble for hits, splats, bombs and specials. Only while you play with a controller.' },
-    { key: 'colorblind', label: 'Colorblind-safe inks', type: 'toggle', help: 'Always use high-contrast yellow vs. blue team inks.' },
-    { key: 'minimap', label: 'Minimap', type: 'toggle', help: 'Show the turf minimap in the corner during matches.' },
-    { key: 'difficulty', label: 'Default bot skill', type: 'seg', options: null, help: 'Starting difficulty for new matches.' },
-    { key: 'matchLength', label: 'Default match length', type: 'seg', options: null, help: 'How long each Turf War lasts.' },
+  { id: 'gameplay', label: '게임플레이', icon: 'swords', rows: [
+    { key: 'cameraShake', label: '화면 흔들림', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '폭발, 슬램, 타격 시 화면 흔들림.' },
+    { key: 'rumble', label: '진동', type: 'slider', min: 0, max: 1, step: 0.05, fmt: pctFmt, help: '타격, 스플랫, 폭탄, 스페셜의 컨트롤러 진동. 컨트롤러로 플레이할 때만.' },
+    { key: 'colorblind', label: '색약 안전 잉크', type: 'toggle', help: '항상 대비가 강한 노랑 대 파랑 팀 잉크를 써요.' },
+    { key: 'minimap', label: '미니맵', type: 'toggle', help: '매치 중 구석에 터프 미니맵을 보여요.' },
+    { key: 'difficulty', label: '기본 봇 실력', type: 'seg', options: null, help: '새 매치의 시작 난이도.' },
+    { key: 'matchLength', label: '기본 매치 시간', type: 'seg', options: null, help: '터프 워 한 판의 길이.' },
   ] },
 ];
 const TAB_BLURB = {
-  controls: 'Look speed, invert, aim assist and the full control reference.',
-  video: 'Quality tier, field of view and screen effects.',
-  audio: 'Master, music and sound-effect levels.',
-  gameplay: 'Shake, vibration, colour-safe inks, minimap and match defaults.',
+  controls: '시점 속도, 반전, 조준 보조와 전체 조작법.',
+  video: '품질 단계, 시야각, 화면 효과.',
+  audio: '전체, 음악, 효과음 음량.',
+  gameplay: '흔들림, 진동, 색약 안전 잉크, 미니맵, 매치 기본값.',
 };
 
-const durLabel = (s) => (s < 120 ? `${s} SEC` : `${Math.round(s / 60)} MIN`);
+const durLabel = (s) => (s < 120 ? `${s}초` : `${Math.round(s / 60)}분`);
 // FNV-1a — the Character's style seed (character.js hashStr) so an unsaved look resolves identically here
 const fnv = (str) => { let x = 2166136261; for (let i = 0; i < str.length; i++) { x ^= str.charCodeAt(i); x = Math.imul(x, 16777619); } return x >>> 0; };
 
@@ -135,7 +135,7 @@ export class Menus {
     this._focusMem = {};
     this._binds = new WeakMap();
     this._modal = null;
-    this._loading = { target: 0, shown: 0, label: 'Mixing the ink…' };
+    this._loading = { target: 0, shown: 0, label: '잉크 섞는 중…' };
     this._results = null;
     this._resultsDirty = false;
     this._input = 'kbm';
@@ -320,7 +320,7 @@ export class Menus {
   _profile() {
     let p = null;
     try { p = this.api.getProfile && this.api.getProfile(); } catch (e) { p = null; }
-    p = { name: 'Player', level: 1, xp: 0, wins: 0, played: 0, ...(p || {}) };
+    p = { name: '플레이어', level: 1, xp: 0, wins: 0, played: 0, ...(p || {}) };
     if (!p.xpToNext) p.xpToNext = PROGRESSION.xpForLevel(p.level);
     if (p.played == null) p.played = p.matches ?? (p.wins + (p.losses || 0));
     return p;
@@ -684,7 +684,7 @@ export class Menus {
     const pctEl = h('span', { class: 'iw-progress__pct' }, '0%');
     const label = h('div', { class: 'iw-loading__label' }, this._loading.label);
     const tipText = h('div', { class: 'iw-tip__text' });
-    const tip = h('div', { class: 'iw-tip iw-in iw-in--up' }, h('span', { class: 'iw-tip__tag' }, 'TIP'), tipText);
+    const tip = h('div', { class: 'iw-tip iw-in iw-in--up' }, h('span', { class: 'iw-tip__tag' }, '팁'), tipText);
     const blobs = h('div', { class: 'iw-loading__bg' }, [0, 1, 2, 3, 4, 5].map((i) => h('i', { class: `iw-bgblob iw-bgblob--${i}` })));
     const el = h('div', { class: 'iw-screen iw-loading' }, blobs,
       h('div', { class: 'iw-loading__center' },
@@ -713,19 +713,19 @@ export class Menus {
   // ================================================================ SCREEN: title
   _scr_title() {
     const press = h('div', { class: 'iw-title__press iw-in iw-in--up' },
-      h('span', { class: 'iw-title__presstext' }, this._input === 'pad' ? 'PRESS ANY BUTTON' : 'PRESS ANY KEY'),
-      h('span', { class: 'iw-title__presssub' }, this._input === 'pad' ? '' : 'or click to start'));
+      h('span', { class: 'iw-title__presstext' }, this._input === 'pad' ? '아무 버튼이나 누르세요' : '아무 키나 누르세요'),
+      h('span', { class: 'iw-title__presssub' }, this._input === 'pad' ? '' : '또는 클릭해서 시작'));
     const el = h('div', { class: 'iw-screen iw-title', onclick: () => this._titleGo() },
       h('div', { class: 'iw-title__scrim' }),
       h('div', { class: 'iw-title__logo iw-in iw-in--logo' }, h('i', { class: 'iw-title__shock' }), h('div', { class: 'iw-title__logoin', html: logoMarkup(GAME_TITLE, GAME_SUBTITLE, 'xl') })),
       press,
-      h('div', { class: 'iw-corner iw-corner--bl iw-in' }, h('b', null, GAME_TITLE), ' · an original turf-war shooter'),
+      h('div', { class: 'iw-corner iw-corner--bl iw-in' }, h('b', null, GAME_TITLE), ' · 오리지널 터프 워 슈터'),
       h('div', { class: 'iw-corner iw-corner--br iw-in' }, `v${this._version()}`));
     return {
       el, noCursor: true,
       onInputMode: (m) => {
-        press.firstChild.textContent = m === 'pad' ? 'PRESS ANY BUTTON' : 'PRESS ANY KEY';
-        press.lastChild.textContent = m === 'pad' ? '' : 'or click to start';
+        press.firstChild.textContent = m === 'pad' ? '아무 버튼이나 누르세요' : '아무 키나 누르세요';
+        press.lastChild.textContent = m === 'pad' ? '' : '또는 클릭해서 시작';
       },
     };
   }
@@ -738,12 +738,12 @@ export class Menus {
     const sp = this._specials()[W.special] || Object.values(this._specials())[0];
     const sub = this._sub();
     const items = [
-      { id: 'play', label: 'PLAY', sub: 'Turf War · 4 v 4', icon: GLYPHS.play, cls: 'iw-btn--menu iw-btn--xl iw-btn--primary', accept: () => this._go('setup'), sound: 'ui_confirm' },
-      { id: 'loadout', label: 'LOADOUT', icon: weaponIcon(W.kind || lo.weapon), cls: 'iw-btn--menu', accept: () => this._go('loadout') },
-      { id: 'locker', label: 'LOCKER', icon: GLYPHS.hanger, cls: 'iw-btn--menu', accept: () => this._go('locker') },
-      { id: 'settings', label: 'SETTINGS', icon: GLYPHS.gear, cls: 'iw-btn--menu', accept: () => this._go('settings') },
-      { id: 'howto', label: 'HOW TO PLAY', icon: GLYPHS.question, cls: 'iw-btn--menu', accept: () => this._go('howto') },
-      { id: 'credits', label: 'CREDITS', icon: GLYPHS.star, cls: 'iw-btn--menu', accept: () => this._go('credits') },
+      { id: 'play', label: '플레이', sub: '터프 워 · 4 대 4', icon: GLYPHS.play, cls: 'iw-btn--menu iw-btn--xl iw-btn--primary', accept: () => this._go('setup'), sound: 'ui_confirm' },
+      { id: 'loadout', label: '무기', icon: weaponIcon(W.kind || lo.weapon), cls: 'iw-btn--menu', accept: () => this._go('loadout') },
+      { id: 'locker', label: '락커', icon: GLYPHS.hanger, cls: 'iw-btn--menu', accept: () => this._go('locker') },
+      { id: 'settings', label: '설정', icon: GLYPHS.gear, cls: 'iw-btn--menu', accept: () => this._go('settings') },
+      { id: 'howto', label: '플레이 방법', icon: GLYPHS.question, cls: 'iw-btn--menu', accept: () => this._go('howto') },
+      { id: 'credits', label: '크레딧', icon: GLYPHS.star, cls: 'iw-btn--menu', accept: () => this._go('credits') },
     ];
     const tilts = [-2.2, 1.4, -1.1, 1.6, -1.3, 1.1];
     const btns = items.map((it, i) => { const b = this._btn({ ...it, tilt: tilts[i % tilts.length] }); b.classList.add('iw-in', 'iw-in--left'); return b; });
@@ -766,11 +766,11 @@ export class Menus {
         h('span', { class: 'iw-xpbar iw-xpbar--shine', style: { '--t': xpT.toFixed(3) } }, h('i'), h('b', { class: 'iw-xpbar__glint' })),
         h('span', { class: 'iw-profile__xpnum' }, `${fmtInt(prof.xp)} / ${fmtInt(prof.xpToNext)} XP`)),
       h('div', { class: 'iw-profile__stats' },
-        h('div', null, h('b', null, fmtInt(prof.wins)), h('span', null, 'WINS')),
-        h('div', null, h('b', null, fmtInt(prof.played)), h('span', null, 'MATCHES')),
-        nextRank ? h('div', { class: 'iw-profile__next' }, h('span', null, 'NEXT RANK'), h('b', null, `LV ${nextRank.lv}`)) : null));
+        h('div', null, h('b', null, fmtInt(prof.wins)), h('span', null, '승리')),
+        h('div', null, h('b', null, fmtInt(prof.played)), h('span', null, '매치')),
+        nextRank ? h('div', { class: 'iw-profile__next' }, h('span', null, '다음 등급'), h('b', null, `LV ${nextRank.lv}`)) : null));
     const kit = this._panel('iw-kitcard iw-in iw-in--right',
-      h('div', { class: 'iw-kitcard__label' }, 'CURRENT LOADOUT'),
+      h('div', { class: 'iw-kitcard__label' }, '현재 무기'),
       h('div', { class: 'iw-kitcard__main' },
         h('span', { class: 'iw-kitcard__icon', html: weaponIcon(W.kind || lo.weapon) }),
         h('div', null, h('div', { class: 'iw-kitcard__name' }, W.name), h('div', { class: 'iw-kitcard__kind' }, W.class || KIND_LABEL[W.kind] || ''))),
@@ -784,7 +784,7 @@ export class Menus {
       desc,
       h('div', { class: 'iw-main__side' }, profile, kit),
       h('div', { class: 'iw-corner iw-corner--bl iw-in' }, `v${this._version()}`),
-      this._prompts([['Enter', 'A', 'Select'], ['Esc', 'B', 'Title']]));
+      this._prompts([['Enter', 'A', '선택'], ['Esc', 'B', '타이틀']]));
     return {
       el, wrap: true, initial: btns[0],
       onFocus: (f) => {
@@ -843,7 +843,7 @@ export class Menus {
     const art = h('div', { class: 'iw-ss__art' });
     const counter = h('span', { class: 'iw-ss__count' });
     const layoutMap = h('span', { class: 'iw-ss__layoutmap' });
-    const layoutEl = h('div', { class: 'iw-ss__layout' }, layoutMap, h('span', { class: 'iw-ss__layoutlbl' }, h('i', { html: GLYPHS.map }), 'LAYOUT'));
+    const layoutEl = h('div', { class: 'iw-ss__layout' }, layoutMap, h('span', { class: 'iw-ss__layoutlbl' }, h('i', { html: GLYPHS.map }), '구조'));
     const stars = h('div', { class: 'iw-ss__stars' }, Array.from({ length: 16 }, (_, i) => {
       const x = ((i * 0.618034 + 0.13) % 1) * 96 + 2, y = ((i * 0.41421 + 0.07) % 1) * 34 + 3;
       return h('i', { style: { left: `${x.toFixed(1)}%`, top: `${y.toFixed(1)}%`, '--d': `${((i * 0.37) % 1 * 3).toFixed(2)}s`, '--s': (0.55 + ((i * 0.73) % 1) * 0.8).toFixed(2) } });
@@ -856,15 +856,15 @@ export class Menus {
       [[38, 1], [96, 1.6], [140, 0.8], [226, 1.3], [300, 0.9], [352, 1.5]].map(([x, k], i) => `<g class="iw-ss__drip" style="--d:${i}"><path class="iw-fa" d="M${x - 6} 0 L${x + 6} 0 L${x + 4} ${22 * k} Q${x} ${31 * k} ${x - 4} ${22 * k} Z"/></g>`).join('')}</svg>` });
 
     // DAY / DUSK switch (big, sticker-like; the thumb carries a sun that sets and a moon that rises)
-    const optDay = h('span', { class: 'iw-daytgl__opt is-day iw-noclick' }, 'DAY');
-    const optDusk = h('span', { class: 'iw-daytgl__opt is-dusk iw-noclick' }, 'DUSK');
+    const optDay = h('span', { class: 'iw-daytgl__opt is-day iw-noclick' }, '낮');
+    const optDusk = h('span', { class: 'iw-daytgl__opt is-dusk iw-noclick' }, '황혼');
     const tgl = h('button', { class: 'iw-daytgl' },
       h('span', { class: 'iw-daytgl__sky' }, h('i', { class: 'iw-daytgl__cloud' }), h('i', { class: 'iw-daytgl__cloud is-2' }),
         ...Array.from({ length: 6 }, (_, i) => h('i', { class: 'iw-daytgl__star', style: { '--i': i } }))),
       h('span', { class: 'iw-daytgl__thumb' }, h('i', { class: 'iw-daytgl__sunico', html: GLYPHS.sun }), h('i', { class: 'iw-daytgl__moonico', html: GLYPHS.moon })),
       optDay, optDusk);
     const timeText = h('span', { class: 'iw-ss__timetext' });
-    const tglWrap = h('div', { class: 'iw-ss__time' }, h('div', { class: 'iw-ss__timehead' }, h('small', null, 'TIME OF DAY'), this._hint(['Q', 'E'], null)), tgl, timeText);
+    const tglWrap = h('div', { class: 'iw-ss__time' }, h('div', { class: 'iw-ss__timehead' }, h('small', null, '시간대'), this._hint(['Q', 'E'], null)), tgl, timeText);
     tglWrap.querySelector('.iw-padg').innerHTML = padGlyph('LB') + padGlyph('RB');
     const hero = h('div', { class: 'iw-ss__hero iw-in iw-in--pop' },
       h('div', { class: 'iw-ss__splat', html: splatSVG({ seed: 21, cls: 'iw-fa', r: 60, arms: 9, drops: 6 }) }),
@@ -991,13 +991,13 @@ export class Menus {
       safeCall(() => this.api.setSettings && this.api.setSettings({ difficulty: v })); updateStart();
     });
     dText.textContent = DIFF_INFO[st.difficulty]?.text || '';
-    const diffRow = h('div', { class: 'iw-setrow iw-setrow--stack' }, h('div', { class: 'iw-setrow__label' }, h('i', { html: GLYPHS.bot }), 'BOT SKILL'), diffSeg.el);
+    const diffRow = h('div', { class: 'iw-setrow iw-setrow--stack' }, h('div', { class: 'iw-setrow__label' }, h('i', { html: GLYPHS.bot }), '봇 실력'), diffSeg.el);
     this._bind(diffRow, { id: 'difficulty', type: 'row', adjust: diffSeg.adjust, accept: diffSeg.cycle });
     const lOpts = durations.map((d) => [d, durLabel(d)]);
     const lenSeg = this._seg(lOpts, st.duration, (v) => {
       st.duration = v; safeCall(() => this.api.setSettings && this.api.setSettings({ matchLength: v })); updateStart();
     });
-    const lenRow = h('div', { class: 'iw-setrow iw-setrow--stack' }, h('div', { class: 'iw-setrow__label' }, h('i', { html: GLYPHS.clock }), 'MATCH LENGTH'), lenSeg.el);
+    const lenRow = h('div', { class: 'iw-setrow iw-setrow--stack' }, h('div', { class: 'iw-setrow__label' }, h('i', { html: GLYPHS.clock }), '매치 시간'), lenSeg.el);
     this._bind(lenRow, { id: 'length', type: 'row', adjust: lenSeg.adjust, accept: lenSeg.cycle });
     const matchPanel = this._panel('iw-ss__match iw-in iw-in--up', diffRow, dText, lenRow);
 
@@ -1006,23 +1006,23 @@ export class Menus {
     const W = this._weapons()[lo.weapon];
     const weaponChip = h('button', { class: 'iw-wchip iw-in' },
       h('span', { class: 'iw-wchip__icon', html: weaponIcon(W.kind || lo.weapon) }),
-      h('span', { class: 'iw-wchip__text' }, h('small', null, 'WEAPON'), h('b', null, W.name)),
+      h('span', { class: 'iw-wchip__text' }, h('small', null, '무기'), h('b', null, W.name)),
       h('span', { class: 'iw-wchip__edit' }, h('i', { html: GLYPHS.pencil })));
     this._fx(weaponChip);
     this._bind(weaponChip, { id: 'weapon', accept: () => { this._sfx('ui_click'); this._go('loadout'); } });
     const prof = this._profile();
     const lookAv = h('span', { class: 'iw-lchip__av' }, h('span', { class: 'iw-lchip__blob', html: splatSVG({ seed: 17, cls: 'iw-fa', r: 62, arms: 8, drops: 0 }) }), h('span', { class: 'iw-lchip__squid', html: SQUID }));
     const lookChip = h('button', { class: 'iw-wchip iw-lchip iw-in' }, lookAv,
-      h('span', { class: 'iw-wchip__text' }, h('small', null, 'SQUIDKID'), h('b', null, prof.name)),
+      h('span', { class: 'iw-wchip__text' }, h('small', null, '오징어키즈'), h('b', null, prof.name)),
       h('span', { class: 'iw-wchip__edit' }, h('i', { html: GLYPHS.hanger })));
     this._fx(lookChip);
     this._bind(lookChip, { id: 'look', accept: () => { this._sfx('ui_click'); this._go('locker'); } });
     this._portraitInto(lookAv, { kind: 'head', size: 128 });
 
     const startSub = h('span');
-    const start = this._btn({ id: 'start', label: 'START!', icon: GLYPHS.play, cls: 'iw-btn--start iw-in iw-in--pop', sound: 'ui_confirm', accept: () => this._startMatch() });
+    const start = this._btn({ id: 'start', label: '시작!', icon: GLYPHS.play, cls: 'iw-btn--start iw-in iw-in--pop', sound: 'ui_confirm', accept: () => this._startMatch() });
     start.querySelector('.iw-btn__text').appendChild(h('span', { class: 'iw-btn__sub' }, startSub));
-    start.append(h('span', { class: 'iw-start__charge' }, h('i')), h('span', { class: 'iw-start__ready' }, h('i', { html: GLYPHS.check }), 'READY'), h('span', { class: 'iw-start__chev' }, h('i'), h('i'), h('i')));
+    start.append(h('span', { class: 'iw-start__charge' }, h('i')), h('span', { class: 'iw-start__ready' }, h('i', { html: GLYPHS.check }), '준비됨'), h('span', { class: 'iw-start__chev' }, h('i'), h('i'), h('i')));
     const updateStart = () => {
       const m = byId(st.mapId);
       startSub.textContent = `${m ? m.name : ''} · ${TIME_INFO[timeOf(st.mapId)].label} · ${diffs[st.difficulty].name} · ${durLabel(st.duration)}`;
@@ -1041,7 +1041,7 @@ export class Menus {
       const m = byId(st.mapId), i = maps.indexOf(m);
       nameEl.innerHTML = m.name.split(' ').map((w, wi) => `<span class="iw-ss__word">${[...w].map((ch, k) => `<span style="--i:${wi * 4 + k}">${esc(ch)}</span>`).join('')}</span>`).join(' ');
       blurbEl.textContent = m.blurb || '';
-      counter.innerHTML = `STAGE <b>${String(i + 1).padStart(2, '0')}</b><em>/ ${String(maps.length).padStart(2, '0')}</em>`;
+      counter.innerHTML = `스테이지 <b>${String(i + 1).padStart(2, '0')}</b><em>/ ${String(maps.length).padStart(2, '0')}</em>`;
       layoutMap.innerHTML = m.thumb || mapThumb(m, i + 2);
       if (anim) { restartAnim(caption, 'is-in'); restartAnim(layoutEl, 'is-in'); restartAnim(counter, 'is-in'); }
       renderTime(false);
@@ -1089,11 +1089,11 @@ export class Menus {
 
     const el = h('div', { class: 'iw-screen iw-setup iw-ss' },
       bg, h('div', { class: 'iw-ss__scrim' }),
-      this._header('TURF WAR', { sub: 'Pick a stage and the time of day · 4 v 4 against bots' }),
-      h('div', { class: 'iw-ss__left' }, h('div', { class: 'iw-seclabel iw-in' }, h('i', { html: GLYPHS.map }), 'STAGES'), listEl, matchPanel),
+      this._header('터프 워', { sub: '스테이지와 시간대를 고르세요 · 봇과 4 대 4' }),
+      h('div', { class: 'iw-ss__left' }, h('div', { class: 'iw-seclabel iw-in' }, h('i', { html: GLYPHS.map }), '스테이지'), listEl, matchPanel),
       hero,
       h('div', { class: 'iw-ss__foot' }, weaponChip, lookChip, start),
-      this._prompts([[['↑', '↓'], 'DPad', 'Stage'], [['←', '→'], null, 'Day · Dusk'], ['Enter', 'A', 'Select'], ['Esc', 'B', 'Back']]));
+      this._prompts([[['↑', '↓'], 'DPad', '스테이지'], [['←', '→'], null, '낮 · 황혼'], ['Enter', 'A', '선택'], ['Esc', 'B', '뒤로']]));
     el.querySelector('.iw-prompts').children[1].querySelector('.iw-padg').innerHTML = padGlyph('LB') + padGlyph('RB');
 
     // explicit focus graph (rows with ←/→ adjust would otherwise trap the pad in a column)
@@ -1176,7 +1176,7 @@ export class Menus {
   _style() {
     const p = this._profile();
     const raw = p.style && typeof p.style === 'object' ? p.style : (this._styleCache || {});
-    try { return LOOK.resolveStyle({ ...raw }, fnv(p.name || 'Player')); } catch (e) { return { ...raw }; }
+    try { return LOOK.resolveStyle({ ...raw }, fnv(p.name || '플레이어')); } catch (e) { return { ...raw }; }
   }
   _saveStyle(style) {
     const clean = { ...style };
@@ -1193,12 +1193,12 @@ export class Menus {
     const L = LOOK;
     const n = (x) => (Array.isArray(x) ? x.length : Math.max(0, x | 0));
     return {
-      hair: { key: 'hair', title: 'TENTACLE STYLE', count: n(L.HAIR_STYLES), names: L.HAIR_STYLE_NAMES || L.HAIR_NAMES, art: 'portrait', kind: 'head', cause: 'hair' },
-      hat: { key: 'hat', title: 'HEADGEAR', count: n(L.HATS), names: L.HAT_NAMES, art: 'portrait', kind: 'head', cause: 'hair' },
-      eyes: { key: 'eyes', title: 'EYES', count: n(L.IRIS), names: L.IRIS_NAMES, art: 'iris', cause: 'eyes' },
-      brows: { key: 'brows', title: 'BROWS', count: n(L.BROWS), names: L.BROW_NAMES, art: 'portrait', kind: 'face', cause: 'eyes' },
-      skin: { key: 'skin', title: 'SKIN TONE', count: n(L.SKIN_TONES), names: L.SKIN_NAMES, art: 'skin', cause: 'skin' },
-      outfit: { key: 'outfit', title: 'OUTFIT', count: n(L.OUTFITS), names: L.OUTFIT_NAMES, art: 'portrait', kind: 'body', cause: 'outfit' },
+      hair: { key: 'hair', title: '촉수 스타일', count: n(L.HAIR_STYLES), names: L.HAIR_STYLE_NAMES || L.HAIR_NAMES, art: 'portrait', kind: 'head', cause: 'hair' },
+      hat: { key: 'hat', title: '모자', count: n(L.HATS), names: L.HAT_NAMES, art: 'portrait', kind: 'head', cause: 'hair' },
+      eyes: { key: 'eyes', title: '눈', count: n(L.IRIS), names: L.IRIS_NAMES, art: 'iris', cause: 'eyes' },
+      brows: { key: 'brows', title: '눈썹', count: n(L.BROWS), names: L.BROW_NAMES, art: 'portrait', kind: 'face', cause: 'eyes' },
+      skin: { key: 'skin', title: '피부톤', count: n(L.SKIN_TONES), names: L.SKIN_NAMES, art: 'skin', cause: 'skin' },
+      outfit: { key: 'outfit', title: '옷', count: n(L.OUTFITS), names: L.OUTFIT_NAMES, art: 'portrait', kind: 'body', cause: 'outfit' },
     };
   }
 
@@ -1208,7 +1208,7 @@ export class Menus {
     const input = h('input', { class: 'iw-name__input', type: 'text', maxlength: '16', spellcheck: 'false', autocomplete: 'off', value: prof.name });
     input.dataset.orig = prof.name;
     const nameRow = h('div', { class: 'iw-name iw-in' },
-      h('span', { class: 'iw-name__label' }, 'NAME'),
+      h('span', { class: 'iw-name__label' }, '이름'),
       h('span', { class: 'iw-name__field' }, input, h('i', { class: 'iw-name__pen', html: GLYPHS.pencil })));
     const commit = () => {
       nameRow.classList.remove('is-editing');
@@ -1262,29 +1262,29 @@ export class Menus {
     // ---- grid + info
     const gridWrap = h('div', { class: 'iw-lgrids' });
     const infoSub = h('small'), infoName = h('b'), infoText = h('span', { class: 'iw-linfo__text' });
-    const infoEq = h('em', { class: 'iw-linfo__eq' }, h('i', { html: GLYPHS.check }), 'WEARING');
+    const infoEq = h('em', { class: 'iw-linfo__eq' }, h('i', { html: GLYPHS.check }), '착용 중');
     const info = h('div', { class: 'iw-linfo' }, h('div', { class: 'iw-linfo__head' }, h('div', { class: 'iw-linfo__names' }, infoSub, infoName), infoEq), infoText);
     const panel = this._panel('iw-lpanel iw-in', gridWrap, info);
 
     // ---- footer: shuffle + done
-    const shuffle = this._btn({ id: 'shuffle', label: 'SHUFFLE', icon: GLYPHS.dice, cls: 'iw-btn--ghost iw-lbtn iw-lbtn--dice', sound: null, accept: () => randomise() });
+    const shuffle = this._btn({ id: 'shuffle', label: '랜덤', icon: GLYPHS.dice, cls: 'iw-btn--ghost iw-lbtn iw-lbtn--dice', sound: null, accept: () => randomise() });
     shuffle.appendChild(h('span', { class: 'iw-lbtn__key' }, this._hint('R', null)));
-    const done = this._btn({ id: 'done', label: 'DONE', icon: GLYPHS.check, cls: 'iw-btn--primary iw-lbtn', sound: 'ui_confirm', accept: () => this._back() });
-    const saved = h('span', { class: 'iw-lsaved' }, h('i', { html: GLYPHS.check }), h('span', null, 'Saves automatically'));
+    const done = this._btn({ id: 'done', label: '완료', icon: GLYPHS.check, cls: 'iw-btn--primary iw-lbtn', sound: 'ui_confirm', accept: () => this._back() });
+    const saved = h('span', { class: 'iw-lsaved' }, h('i', { html: GLYPHS.check }), h('span', null, '자동 저장됨'));
     const foot = h('div', { class: 'iw-lfoot iw-in iw-in--up' }, shuffle, saved, done);
     const body = h('div', { class: 'iw-locker__body' }, tabsEl, panel, foot);
 
     // ---- right side: the kid's name tag (editable) above the pedestal, drag hint below, the current look as chips
     const spinHint = h('div', { class: 'iw-lspin iw-in iw-in--up' }, h('i', { html: GLYPHS.rotate }),
-      h('span', { class: 'iw-kbm' }, 'DRAG TO SPIN'), h('span', { class: 'iw-padg', html: padGlyph('RS') + '<b>SPIN</b>' }));
+      h('span', { class: 'iw-kbm' }, '드래그해서 회전'), h('span', { class: 'iw-padg', html: padGlyph('RS') + '<b>회전</b>' }));
     const sheet = h('div', { class: 'iw-lsheet' });
     const tag = h('div', { class: 'iw-ltag iw-in iw-in--down' }, h('span', { class: 'iw-ltag__blob', html: splatSVG({ seed: 44, cls: 'iw-fa', r: 60, arms: 9, drops: 3 }) }), nameRow, sheet);
 
     const el = h('div', { class: 'iw-screen iw-locker' },
       h('div', { class: 'iw-scrim-left' }),
-      this._header('LOCKER', { sub: 'Choose your squidkid, then make it yours' }),
+      this._header('락커', { sub: '오징어키즈를 고르고 내 스타일로 꾸며요' }),
       body, tag, spinHint,
-      this._prompts([['Enter', 'A', 'Wear'], [['Q', 'E'], null, 'Tabs'], ['R', null, 'Shuffle'], ['Esc', 'B', 'Done']]));
+      this._prompts([['Enter', 'A', '입기'], [['Q', 'E'], null, '탭'], ['R', null, '랜덤'], ['Esc', 'B', '완료']]));
     el.querySelector('.iw-prompts').children[1].querySelector('.iw-padg').innerHTML = padGlyph('LB') + padGlyph('RB');
 
     // ---- tiles
@@ -1293,7 +1293,7 @@ export class Menus {
     const handles = [];
     const tileStyle = (t) => (t._sec.key === '_presets' ? resolve(presets[t._i].style) : { ...style, [t._sec.key]: t._i });
     const isOn = (t) => (t._sec.key === '_presets' ? same(resolve(presets[t._i].style), style) : style[t._sec.key] === t._i);
-    const optName = (sec, i) => (sec.key === '_presets' ? presets[i].name : (sec.names && sec.names[i]) || `${sec.title[0]}${sec.title.slice(1).toLowerCase()} ${i + 1}`);
+    const optName = (sec, i) => (sec.key === '_presets' ? presets[i].name : (sec.names && sec.names[i]) || `${sec.title} ${i + 1}`);
     const fallbackArt = (sec, i) => {
       if (sec.art === 'skin') return skinSwatch(LOOK.SKIN_TONES[i]);
       if (sec.art === 'iris') return irisSwatch(LOOK.IRIS[i]);
@@ -1320,11 +1320,11 @@ export class Menus {
       tiles = [];
       const tab = tabs[tabIdx];
       for (const k of tab.sections) {
-        const sec = k === '_presets' ? { key: '_presets', title: 'CHOOSE YOUR SQUIDKID', count: presets.length, art: 'portrait', kind: 'bust', cause: 'preset' } : slots[k];
+        const sec = k === '_presets' ? { key: '_presets', title: '오징어키즈 선택', count: presets.length, art: 'portrait', kind: 'bust', cause: 'preset' } : slots[k];
         const grid = h('div', { class: `iw-lgrid iw-lgrid--${sec.art === 'portrait' ? sec.kind : 'swatch'}`, style: { '--cols': cols(sec) } });
         for (let i = 0; i < sec.count; i++) { const t = makeTile(sec, i, tiles.length); tiles.push(t); grid.appendChild(t); }
         gridWrap.appendChild(h('section', { class: 'iw-lsec', style: { '--dir': dirSign } },
-          h('div', { class: 'iw-lsec__title' }, h('span', null, sec.title), h('small', null, `${sec.count} ${sec.key === '_presets' ? 'LOOKS' : 'OPTIONS'}`)), grid));
+          h('div', { class: 'iw-lsec__title' }, h('span', null, sec.title), h('small', null, `${sec.key === '_presets' ? '스타일' : '옵션'} ${sec.count}개`)), grid));
       }
       refresh();
       requestPortraits();
@@ -1358,15 +1358,15 @@ export class Menus {
     };
     const showInfo = (t) => {
       const sec = t._sec, i = t._i;
-      infoSub.textContent = sec.key === '_presets' ? 'SQUIDKID' : sec.title;
+      infoSub.textContent = sec.key === '_presets' ? '오징어키즈' : sec.title;
       infoName.textContent = optName(sec, i);
-      infoText.textContent = sec.key === '_presets' ? (presets[i].blurb || '') : `${i + 1} of ${sec.count}`;
+      infoText.textContent = sec.key === '_presets' ? (presets[i].blurb || '') : `${sec.count}개 중 ${i + 1}번째`;
       info.classList.toggle('is-on', isOn(t));
       restartAnim(info, 'is-swap');
     };
     // the current look as a sticker sheet (one chip per slot)
     const renderSheet = () => {
-      const rows = [['hair', 'HAIR'], ['hat', 'HAT'], ['eyes', 'EYES'], ['brows', 'BROWS'], ['skin', 'SKIN'], ['outfit', 'OUTFIT']].filter(([k]) => slots[k] && slots[k].count > 0);
+      const rows = [['hair', '머리'], ['hat', '모자'], ['eyes', '눈'], ['brows', '눈썹'], ['skin', '피부'], ['outfit', '옷']].filter(([k]) => slots[k] && slots[k].count > 0);
       sheet.innerHTML = '';
       for (const [k, label] of rows) {
         const sec = slots[k], i = style[k] | 0;
@@ -1507,7 +1507,7 @@ export class Menus {
     // ---- detail panel
     const kind = h('span', { class: 'iw-wd__kind' });
     const nm = h('span', { class: 'iw-wd__name iw-display' });
-    const eqBadge = h('span', { class: 'iw-wd__eq' }, h('i', { html: GLYPHS.check }), 'EQUIPPED');
+    const eqBadge = h('span', { class: 'iw-wd__eq' }, h('i', { html: GLYPHS.check }), '장착됨');
     const cmpBadge = h('span', { class: 'iw-wd__cmp' }, h('i', { class: 'iw-wd__cmpdot' }), 'vs ', h('b'));
     const blurb = h('p', { class: 'iw-wd__blurb' });
     const statKeys = [...STAT_LABELS.map(([k]) => k), ...Object.keys((Ws[order[0]] && Ws[order[0]].stats) || {}).filter((k) => !STAT_LABELS.some(([x]) => x === k))].slice(0, 6);
@@ -1520,10 +1520,10 @@ export class Menus {
       return { k, row, bar, num, delta, cur: 0, target: 0, shownInt: -1, delay: 0.25 + i * 0.07 };
     });
     const subIcon = h('span', { class: 'iw-kit__icon' }), subName = h('b'), subText = h('span');
-    const subChip = h('div', { class: 'iw-kit' }, subIcon, h('div', null, h('small', null, 'SUB WEAPON'), subName, subText));
+    const subChip = h('div', { class: 'iw-kit' }, subIcon, h('div', null, h('small', null, '서브 무기'), subName, subText));
     const spIcon = h('span', { class: 'iw-kit__icon is-sp' });
     const spName = h('b'); const spBlurb = h('span'); const spCost = h('em', { class: 'iw-kit__cost' });
-    const spChip = h('div', { class: 'iw-kit' }, spIcon, h('div', null, h('small', null, 'SPECIAL'), h('div', { class: 'iw-kit__row' }, spName, spCost), spBlurb));
+    const spChip = h('div', { class: 'iw-kit' }, spIcon, h('div', null, h('small', null, '스페셜'), h('div', { class: 'iw-kit__row' }, spName, spCost), spBlurb));
     const detail = this._panel('iw-wd iw-in iw-in--up',
       h('div', { class: 'iw-wd__head' }, h('div', { class: 'iw-wd__title' }, kind, nm), h('div', { class: 'iw-wd__badges' }, cmpBadge, eqBadge)),
       blurb,
@@ -1557,13 +1557,13 @@ export class Menus {
       const sub = subOf(w);
       subIcon.innerHTML = SUB_ICONS[sub.id] || SUB_ICONS.bomb;
       subName.textContent = sub.name;
-      subText.textContent = `Costs ${Math.round(sub.inkCost || 70)}% of your ink tank. Hold to aim, release to throw.`;
+      subText.textContent = `잉크 탱크의 ${Math.round(sub.inkCost || 70)}%를 써요. 길게 눌러 조준하고 놓으면 던져요.`;
       const sp = specials[w.special] || Object.values(specials)[0];
       spIcon.innerHTML = specialIcon(sp.id);
       spName.textContent = sp.name;
       spBlurb.textContent = sp.blurb || '';
       spCost.textContent = w.specialCost ? `${Math.round(w.specialCost)}p` : '';
-      spCost.title = 'Turf points to fill the special gauge';
+      spCost.title = '스페셜 게이지를 채우는 터프 점수';
       if (!first) restartAnim(detail, 'is-swap');
       markSeen(id);
     };
@@ -1573,8 +1573,8 @@ export class Menus {
     const prof = this._profile();
     const lookAv = h('span', { class: 'iw-lchip__av' }, h('span', { class: 'iw-lchip__blob', html: splatSVG({ seed: 17, cls: 'iw-fa', r: 62, arms: 8, drops: 0 }) }), h('span', { class: 'iw-lchip__squid', html: SQUID }));
     const lookChip = h('button', { class: 'iw-wchip iw-lchip iw-lchip--sm iw-in iw-in--down' }, lookAv,
-      h('span', { class: 'iw-wchip__text' }, h('small', null, 'SQUIDKID'), h('b', null, prof.name)),
-      h('span', { class: 'iw-wchip__edit' }, h('i', { html: GLYPHS.hanger }), 'LOCKER'));
+      h('span', { class: 'iw-wchip__text' }, h('small', null, '오징어키즈'), h('b', null, prof.name)),
+      h('span', { class: 'iw-wchip__edit' }, h('i', { html: GLYPHS.hanger }), '락커'));
     this._fx(lookChip);
     this._bind(lookChip, { id: 'look', accept: () => { this._sfx('ui_click'); this._go('locker'); } });
     this._portraitInto(lookAv, { kind: 'head', size: 128 });
@@ -1582,13 +1582,13 @@ export class Menus {
     const grid = h('div', { class: 'iw-wgrid' + (compact ? ' is-compact' : ''), style: { '--cols': cols } }, cards);
     const el = h('div', { class: 'iw-screen iw-loadout' },
       h('div', { class: 'iw-scrim-left' }),
-      this._header('LOADOUT', { sub: `${n} weapons · every one comes with a sub and a special` }),
+      this._header('무기', { sub: `무기 ${n}종 · 모두 서브 무기와 스페셜 포함` }),
       h('div', { class: 'iw-loadout__body' },
-        h('div', { class: 'iw-seclabel iw-in' }, h('i', { html: WEAPON_ICONS.shooter }), 'WEAPON', h('span', { class: 'iw-seclabel__count' }, `${order.indexOf(equipped) + 1} / ${n}`)),
+        h('div', { class: 'iw-seclabel iw-in' }, h('i', { html: WEAPON_ICONS.shooter }), '무기', h('span', { class: 'iw-seclabel__count' }, `${order.indexOf(equipped) + 1} / ${n}`)),
         grid,
         detail),
       h('div', { class: 'iw-loadout__look' }, lookChip),
-      this._prompts([['Enter', 'A', 'Equip'], [['←', '→'], 'DPad', 'Browse'], ['Esc', 'B', 'Back']]));
+      this._prompts([['Enter', 'A', '장착'], [['←', '→'], 'DPad', '둘러보기'], ['Esc', 'B', '뒤로']]));
     const countEl = el.querySelector('.iw-seclabel__count');
     let enterT = 0;
     return {
@@ -1655,7 +1655,7 @@ export class Menus {
     const fill = h('span', { class: 'iw-slider__fill' });
     const knob = h('span', { class: 'iw-slider__knob' });
     const def = DEFAULT_SETTINGS[key];
-    const mark = def != null ? h('span', { class: 'iw-slider__def', style: { '--d': clamp((def - min) / (max - min)).toFixed(4) }, title: 'Default' }) : null;
+    const mark = def != null ? h('span', { class: 'iw-slider__def', style: { '--d': clamp((def - min) / (max - min)).toFixed(4) }, title: '기본값' }) : null;
     const track = h('span', { class: 'iw-slider__track iw-noclick' }, mark, fill, knob);
     const val = h('span', { class: 'iw-slider__val' });
     const el = h('span', { class: 'iw-slider' }, track, val);
@@ -1702,7 +1702,7 @@ export class Menus {
     const knob = h('span', { class: 'iw-toggle__knob' });
     const el = h('span', { class: 'iw-toggle' + (v ? ' is-on' : '') },
       h('span', { class: 'iw-toggle__ink' }),
-      h('span', { class: 'iw-toggle__txt iw-toggle__off' }, 'OFF'), h('span', { class: 'iw-toggle__txt iw-toggle__on' }, 'ON'), knob);
+      h('span', { class: 'iw-toggle__txt iw-toggle__off' }, '꺼짐'), h('span', { class: 'iw-toggle__txt iw-toggle__on' }, '켜짐'), knob);
     const set = (nv) => {
       nv = !!nv;
       if (nv === v) { this._sfx('ui_error', 0.2); restartAnim(el, 'is-edge'); return; }
@@ -1743,7 +1743,7 @@ export class Menus {
       const o = (r.options || []).find((x) => x[0] === v);
       return o ? o[1] : String(v);
     };
-    const fmtVal = (r, v) => (!r ? '' : r.type === 'slider' ? r.fmt(+v) : r.type === 'toggle' ? (v ? 'ON' : 'OFF') : r.type === 'seg' ? optLabel(r, v).toUpperCase() : '');
+    const fmtVal = (r, v) => (!r ? '' : r.type === 'slider' ? r.fmt(+v) : r.type === 'toggle' ? (v ? '켜짐' : '꺼짐') : r.type === 'seg' ? optLabel(r, v).toUpperCase() : '');
     const showPreview = (key, { label, help, tab } = {}) => {
       if (P.key === key) return;
       P.key = key;
@@ -1771,7 +1771,7 @@ export class Menus {
       const tab = SETTINGS_TABS[tabIdx];
       tab.rows.forEach((r, i) => {
         let ctrl;
-        if (r.type === 'link') ctrl = { el: h('span', { class: 'iw-row__link' }, 'VIEW', h('i', { html: GLYPHS.next })), accept: () => { this._sfx('ui_click'); this._go('howto'); } };
+        if (r.type === 'link') ctrl = { el: h('span', { class: 'iw-row__link' }, '보기', h('i', { html: GLYPHS.next })), accept: () => { this._sfx('ui_click'); this._go('howto'); } };
         else if (r.type === 'slider') ctrl = this._slider(r, s[r.key]);
         else if (r.type === 'toggle') ctrl = this._toggle(r, s[r.key]);
         else {
@@ -1818,15 +1818,15 @@ export class Menus {
     buildRows(1);
 
     let resetArmed = 0;
-    const reset = this._btn({ id: 'reset', label: 'RESET TO DEFAULTS', icon: GLYPHS.reset, cls: 'iw-btn--ghost iw-btn--small', sound: null, accept: () => {
+    const reset = this._btn({ id: 'reset', label: '기본값으로 초기화', icon: GLYPHS.reset, cls: 'iw-btn--ghost iw-btn--small', sound: null, accept: () => {
       if (!resetArmed) {
         resetArmed = 2.6; reset.classList.add('is-armed');
-        reset.querySelector('.iw-btn__label').textContent = 'PRESS AGAIN TO CONFIRM';
+        reset.querySelector('.iw-btn__label').textContent = '한 번 더 눌러 확인';
         this._sfx('ui_click');
         return;
       }
       resetArmed = 0; reset.classList.remove('is-armed');
-      reset.querySelector('.iw-btn__label').textContent = 'RESET TO DEFAULTS';
+      reset.querySelector('.iw-btn__label').textContent = '기본값으로 초기화';
       safeCall(() => this.api.setSettings && this.api.setSettings({ ...DEFAULT_SETTINGS }));
       if (!this._accentExternal) this._applyAccent();
       const s = this._settings();
@@ -1835,15 +1835,15 @@ export class Menus {
       rowsEl.querySelectorAll('.iw-row').forEach((r) => restartAnim(r, 'is-flash'));
       savedPulse();
     } });
-    const saved = h('div', { class: 'iw-saved' }, h('i', { html: GLYPHS.check }), h('span', null, 'Changes save automatically'));
-    const savedPulse = () => { saved.lastChild.textContent = 'Saved!'; restartAnim(saved, 'is-on'); clearTimeout(this._savedT); this._savedT = setTimeout(() => { if (saved.isConnected) saved.lastChild.textContent = 'Changes save automatically'; }, 1400); };
+    const saved = h('div', { class: 'iw-saved' }, h('i', { html: GLYPHS.check }), h('span', null, '변경 사항은 자동 저장됨'));
+    const savedPulse = () => { saved.lastChild.textContent = '저장됨!'; restartAnim(saved, 'is-on'); clearTimeout(this._savedT); this._savedT = setTimeout(() => { if (saved.isConnected) saved.lastChild.textContent = '변경 사항은 자동 저장됨'; }, 1400); };
 
     const panel = this._panel('iw-settings__panel iw-in', tabsEl, rowsEl, h('div', { class: 'iw-settings__foot' }, saved, reset));
     const el = h('div', { class: 'iw-screen iw-settings' },
       h('div', { class: 'iw-scrim-left' }),
-      this._header('SETTINGS', { sub: 'Changes apply instantly' }),
+      this._header('설정', { sub: '변경 사항은 바로 적용됨' }),
       panel, card,
-      this._prompts([[['←', '→'], 'DPad', 'Adjust'], [['Q', 'E'], null, 'Tabs'], ['Esc', 'B', 'Back']]));
+      this._prompts([[['←', '→'], 'DPad', '조정'], [['Q', 'E'], null, '탭'], ['Esc', 'B', '뒤로']]));
     el.querySelector('.iw-prompts').children[1].querySelector('.iw-padg').innerHTML = padGlyph('LB') + padGlyph('RB');
     return {
       el,
@@ -1852,7 +1852,7 @@ export class Menus {
       onFocus: (f) => {
         if (f._key) showPreview(f._key);
         else if (f.dataset.nav === 'tab') { const t = SETTINGS_TABS[tabBtns.indexOf(f)]; if (t) showPreview('_tab_' + t.id, { label: t.label, help: TAB_BLURB[t.id], tab: t }); }
-        else if (f.dataset.id === 'reset') showPreview('_reset', { label: 'Reset', help: 'Restore every setting to its original value.' });
+        else if (f.dataset.id === 'reset') showPreview('_reset', { label: '초기화', help: '모든 설정을 기본값으로 되돌려요.' });
       },
       onSetting: (key, value) => {
         savedPulse();
@@ -1876,7 +1876,7 @@ export class Menus {
         if (P.cur && P.cur.tick) P.cur.tick(dt);
         if (resetArmed > 0) {
           resetArmed -= dt;
-          if (resetArmed <= 0) { resetArmed = 0; reset.classList.remove('is-armed'); reset.querySelector('.iw-btn__label').textContent = 'RESET TO DEFAULTS'; }
+          if (resetArmed <= 0) { resetArmed = 0; reset.classList.remove('is-armed'); reset.querySelector('.iw-btn__label').textContent = '기본값으로 초기화'; }
         }
       },
     };
@@ -1884,31 +1884,31 @@ export class Menus {
 
   // ================================================================ SCREEN: howto
   _controlsList(mode, compact = false) {
-    const K = (...ks) => ks.map((k) => (k === 'or' ? '<em>or</em>' : k === 'LMB' ? mouseGlyph('L') : k === 'RMB' ? mouseGlyph('R') : k === 'MOUSE' ? mouseGlyph('M') : keycap(k))).join('');
+    const K = (...ks) => ks.map((k) => (k === 'or' ? '<em>또는</em>' : k === 'LMB' ? mouseGlyph('L') : k === 'RMB' ? mouseGlyph('R') : k === 'MOUSE' ? mouseGlyph('M') : keycap(k))).join('');
     const rows = [
-      ['Move', null, K('W', 'A', 'S', 'D'), padGlyph('LS')],
-      ['Aim', null, K('MOUSE'), padGlyph('RS')],
-      ['Fire', null, K('LMB'), padGlyph('RT')],
-      ['Swim · squid form', 'hold', K('SHIFT'), padGlyph('LT')],
-      ['Jump', null, K('SPACE'), padGlyph('A')],
-      ['Aim bomb · release to throw', 'hold', K('RMB', 'or', 'E'), padGlyph('RB')],
-      ['Special', null, K('F', 'or', 'Q'), padGlyph('Y')],
-      ['Map', 'hold', K('TAB'), padGlyph('View')],
-      ['Pause', null, K('ESC'), padGlyph('Start')],
+      ['이동', null, K('W', 'A', 'S', 'D'), padGlyph('LS')],
+      ['조준', null, K('MOUSE'), padGlyph('RS')],
+      ['발사', null, K('LMB'), padGlyph('RT')],
+      ['수영 · 오징어 변신', 'hold', K('SHIFT'), padGlyph('LT')],
+      ['점프', null, K('SPACE'), padGlyph('A')],
+      ['폭탄 조준 · 놓으면 투척', 'hold', K('RMB', 'or', 'E'), padGlyph('RB')],
+      ['스페셜', null, K('F', 'or', 'Q'), padGlyph('Y')],
+      ['지도', 'hold', K('TAB'), padGlyph('View')],
+      ['일시정지', null, K('ESC'), padGlyph('Start')],
     ];
-    const list = compact ? rows.filter((r) => ['Move', 'Fire', 'Swim · squid form', 'Jump', 'Aim bomb · release to throw', 'Special'].includes(r[0])) : rows;
+    const list = compact ? rows.filter((r) => ['이동', '발사', '수영 · 오징어 변신', '점프', '폭탄 조준 · 놓으면 투척', '스페셜'].includes(r[0])) : rows;
     return h('div', { class: 'iw-ctl' + (compact ? ' iw-ctl--compact' : '') }, list.map(([act, hold, kb, pad]) =>
       h('div', { class: 'iw-ctl__row' },
-        h('span', { class: 'iw-ctl__act' }, compact ? act.replace(' · release to throw', '').replace(' · squid form', '') : act, hold ? h('em', null, hold) : null),
+        h('span', { class: 'iw-ctl__act' }, compact ? act.replace(' · 놓으면 투척', '').replace(' · 오징어 변신', '') : act, hold ? h('em', null, '길게') : null),
         h('span', { class: 'iw-ctl__keys', html: mode === 'pad' ? pad : kb }))));
   }
 
   _scr_howto() {
     const rules = [
-      ['turf', 'Ink the turf', 'Paint the ground in your team’s color. When time runs out, the team with the most turf wins.'],
-      ['swim', 'Swim to refill', 'Dive into your own ink as a squid to move fast, hide and refill your ink tank.'],
-      ['enemy', 'Avoid enemy ink', 'Enemy ink slows you down and hurts. Paint over it to take the ground back.'],
-      ['climb', 'Climb inked walls', 'Ink a wall, then swim straight up it as a squid to reach high ground.'],
+      ['turf', '터프를 칠해요', '바닥을 우리 팀 색으로 칠하세요. 시간이 끝났을 때 터프가 더 많은 팀이 이겨요.'],
+      ['swim', '수영으로 충전', '오징어로 변신해 내 잉크 속을 헤엄치면 빠르게 움직이고, 숨고, 잉크도 채워요.'],
+      ['enemy', '적 잉크 조심', '적 잉크는 느려지고 아파요. 위에 덧칠해서 땅을 되찾으세요.'],
+      ['climb', '잉크 벽 오르기', '벽에 잉크를 칠하고 오징어로 헤엄쳐 올라 고지를 차지해요.'],
     ];
     const cards = rules.map(([art, title, text], i) => h('div', { class: 'iw-rule iw-in iw-in--pop', style: { '--tilt': `${[-1.2, 1, 0.8, -1][i]}deg` } },
       h('div', { class: 'iw-rule__art', html: RULE_ART[art] }),
@@ -1918,17 +1918,17 @@ export class Menus {
     let mode = this._input;
     const listWrap = h('div', { class: 'iw-ctl-wrap' });
     const renderList = () => { listWrap.innerHTML = ''; listWrap.appendChild(this._controlsList(mode)); restartAnim(listWrap, 'is-in'); };
-    const seg = this._seg([['kbm', h('span', { class: 'iw-segico' }, h('i', { html: GLYPHS.keyboard }), 'KEYBOARD & MOUSE')], ['pad', h('span', { class: 'iw-segico' }, h('i', { html: GLYPHS.gamepad }), 'CONTROLLER')]], mode, (v) => { mode = v; renderList(); });
+    const seg = this._seg([['kbm', h('span', { class: 'iw-segico' }, h('i', { html: GLYPHS.keyboard }), '키보드 & 마우스')], ['pad', h('span', { class: 'iw-segico' }, h('i', { html: GLYPHS.gamepad }), '컨트롤러')]], mode, (v) => { mode = v; renderList(); });
     const segRow = h('div', { class: 'iw-ctl-switch' }, seg.el);
     this._bind(segRow, { id: 'scheme', type: 'row', adjust: seg.adjust, accept: seg.cycle });
     renderList();
     const el = h('div', { class: 'iw-screen iw-howto' },
       h('div', { class: 'iw-scrim-full' }),
-      this._header('HOW TO PLAY', { sub: 'Turf War in 30 seconds' }),
+      this._header('플레이 방법', { sub: '30초 만에 배우는 터프 워' }),
       h('div', { class: 'iw-howto__body' },
         h('div', { class: 'iw-howto__rules' }, cards),
-        this._panel('iw-howto__ctl iw-in iw-in--right', h('div', { class: 'iw-seclabel' }, h('i', { html: GLYPHS.gamepad }), 'CONTROLS'), segRow, listWrap)),
-      this._prompts([[['←', '→'], 'DPad', 'Switch controls'], ['Esc', 'B', 'Back']]));
+        this._panel('iw-howto__ctl iw-in iw-in--right', h('div', { class: 'iw-seclabel' }, h('i', { html: GLYPHS.gamepad }), '조작법'), segRow, listWrap)),
+      this._prompts([[['←', '→'], 'DPad', '조작 기기 전환'], ['Esc', 'B', '뒤로']]));
     return {
       el, initial: segRow,
       onNav: (dir) => {
@@ -1945,19 +1945,19 @@ export class Menus {
     const cast = h('div', { class: 'iw-cred__cast' }, BOT_NAMES.map((n, i) => h('span', { style: { '--c': i % 2 ? 'var(--b)' : 'var(--a)' } }, h('i', { html: SQUID }), n)));
     const roll = h('div', { class: 'iw-cred__roll' },
       h('div', { class: 'iw-cred__logo', html: logoMarkup(GAME_TITLE, GAME_SUBTITLE, 'md') }),
-      h('p', { class: 'iw-cred__lead' }, 'An original 4 v 4 turf-war shooter.'),
-      sec('Made with', 'Procedural everything — squidkids, weapons, stage, ink, music and sound are all generated in code.'),
-      sec('Rendering', 'three.js', h('p', { class: 'dim' }, 'by the three.js authors & contributors')),
-      sec('Typography', 'Titan One — Font Diner', 'Rubik — Hubert & Fischer', h('p', { class: 'dim' }, 'SIL Open Font License')),
-      sec('Starring the squidkids', cast),
-      sec('Special thanks', 'Everyone who ever painted a wall', 'Every bot that got splatted in testing', 'And you, for playing'),
-      h('div', { class: 'iw-cred__end' }, h('div', { class: 'iw-cred__endsplat', html: splatSVG({ seed: 77, cls: 'iw-fa' }) }), h('span', { class: 'iw-display' }, 'STAY FRESH!')));
+      h('p', { class: 'iw-cred__lead' }, '오리지널 4 대 4 터프 워 슈터.'),
+      sec('만든 것들', '전부 절차적 생성 — 오징어키즈, 무기, 스테이지, 잉크, 음악, 효과음 모두 코드로 만들었어요.'),
+      sec('렌더링', 'three.js', h('p', { class: 'dim' }, 'three.js 제작자와 기여자들')),
+      sec('타이포그래피', 'Titan One — Font Diner', 'Rubik — Hubert & Fischer', 'Noto Sans KR — Google', h('p', { class: 'dim' }, 'SIL Open Font License')),
+      sec('오징어키즈 출연진', cast),
+      sec('특별히 감사한 분들', '벽을 칠해 본 모든 분', '테스트에서 스플랫당한 모든 봇', '그리고 플레이해 주신 당신'),
+      h('div', { class: 'iw-cred__end' }, h('div', { class: 'iw-cred__endsplat', html: splatSVG({ seed: 77, cls: 'iw-fa' }) }), h('span', { class: 'iw-display' }, '스테이 프레시!')));
     const viewport = h('div', { class: 'iw-cred__view' }, roll);
     const el = h('div', { class: 'iw-screen iw-credits' },
       h('div', { class: 'iw-scrim-full' }),
-      this._header('CREDITS'),
+      this._header('크레딧'),
       viewport,
-      this._prompts([['Enter', 'A', 'Hold to speed up'], ['Esc', 'B', 'Back']]));
+      this._prompts([['Enter', 'A', '길게 눌러 빨리 감기'], ['Esc', 'B', '뒤로']]));
     let y = null, boost = 0, vh = 0, rh = 0, measureT = 0;
     return {
       el, noCursor: true,
@@ -2027,14 +2027,14 @@ export class Menus {
 
   _scr_pause() {
     const items = [
-      { id: 'resume', label: 'RESUME', icon: GLYPHS.play, cls: 'iw-btn--menu iw-btn--primary', accept: () => this._resume(), sound: null },
-      { id: 'settings', label: 'SETTINGS', icon: GLYPHS.gear, cls: 'iw-btn--menu', accept: () => this._go('settings') },
-      { id: 'howto', label: 'HOW TO PLAY', icon: GLYPHS.question, cls: 'iw-btn--menu', accept: () => this._go('howto') },
-      { id: 'quit', label: 'QUIT MATCH', icon: GLYPHS.close, cls: 'iw-btn--menu iw-btn--danger', accept: () => this._openModal({
-        title: 'QUIT MATCH?', text: 'You will leave this Turf War and head back to the lobby. Your turf will not count.', danger: true,
+      { id: 'resume', label: '계속하기', icon: GLYPHS.play, cls: 'iw-btn--menu iw-btn--primary', accept: () => this._resume(), sound: null },
+      { id: 'settings', label: '설정', icon: GLYPHS.gear, cls: 'iw-btn--menu', accept: () => this._go('settings') },
+      { id: 'howto', label: '플레이 방법', icon: GLYPHS.question, cls: 'iw-btn--menu', accept: () => this._go('howto') },
+      { id: 'quit', label: '매치 나가기', icon: GLYPHS.close, cls: 'iw-btn--menu iw-btn--danger', accept: () => this._openModal({
+        title: '매치를 나갈까요?', text: '이 터프 워를 떠나 로비로 돌아가요. 칠한 터프는 반영되지 않아요.', danger: true,
         buttons: [
-          { label: 'KEEP PLAYING', accept: () => this._closeModal(), sound: null },
-          { label: 'QUIT', cls: 'iw-btn--danger', sound: 'ui_confirm', accept: () => {
+          { label: '계속 플레이', accept: () => this._closeModal(), sound: null },
+          { label: '나가기', cls: 'iw-btn--danger', sound: 'ui_confirm', accept: () => {
             this._closeModal(true);
             safeCall(() => this.api.quitMatch && this.api.quitMatch());
             if (this.current === 'pause') this.show('main', { wipe: true });
@@ -2051,39 +2051,39 @@ export class Menus {
     const diff = snap.difficulty && this._diffs()[snap.difficulty];
     const clockNum = h('b', { class: 'iw-pclock__num' }, fmtTime(snap.time));
     const clockArc = h('i', { class: 'iw-pclock__arc' });
-    const clock = h('div', { class: 'iw-pclock' }, h('span', { class: 'iw-pclock__ring' }, clockArc), h('div', { class: 'iw-pclock__txt' }, clockNum, h('small', null, 'LEFT')));
+    const clock = h('div', { class: 'iw-pclock' }, h('span', { class: 'iw-pclock__ring' }, clockArc), h('div', { class: 'iw-pclock__txt' }, clockNum, h('small', null, '남음')));
     const stat = (cls, icon, label) => {
       const b = h('b');
       const n = h('span', { class: `iw-pstat ${cls}` }, h('i', { html: icon }), b, h('small', null, label));
       return { el: n, b };
     };
-    const sTurf = stat('iw-pstat--turf', GLYPHS.drop, 'TURF'), sSplat = stat('', SPLAT_ICON, 'SPLATS'), sDeath = stat('', DEATH_ICON, 'SPLATTED'), sSp = stat('iw-pstat--sp', specialIcon((this._weapons()[selfP.weapon] || {}).special), 'SPECIAL');
+    const sTurf = stat('iw-pstat--turf', GLYPHS.drop, '터프'), sSplat = stat('', SPLAT_ICON, '스플랫'), sDeath = stat('', DEATH_ICON, '스플랫 당함'), sSp = stat('iw-pstat--sp', specialIcon((this._weapons()[selfP.weapon] || {}).special), '스페셜');
     const you = h('div', { class: 'iw-pyou' },
       h('span', { class: 'iw-pyou__av', html: SQUID }),
-      h('div', { class: 'iw-pyou__id' }, h('small', null, 'YOUR MATCH'), h('b', null, selfP.name || 'You')),
+      h('div', { class: 'iw-pyou__id' }, h('small', null, '내 매치'), h('b', null, selfP.name || '나')),
       h('div', { class: 'iw-pyou__stats' }, sTurf.el, sSplat.el, sDeath.el, sSp.el));
     const rosterRows = [];
     const roster = (team) => {
       const list = snap.players.filter((p) => p.team === team);
       return h('div', { class: `iw-roster iw-roster--${team ? 'b' : 'a'}` },
-        h('div', { class: 'iw-roster__head' }, h('i', { class: 'iw-roster__dot' }), h('span', null, snap.names[team] || TEAM_NAMES[team]), h('em', null, team === selfP.team ? 'YOUR TEAM' : 'RIVALS')),
+        h('div', { class: 'iw-roster__head' }, h('i', { class: 'iw-roster__dot' }), h('span', null, snap.names[team] || TEAM_NAMES[team]), h('em', null, team === selfP.team ? '우리 팀' : '상대 팀')),
         list.map((p) => {
           const st = h('span', { class: 'iw-rrow__st' });
           const row = h('div', { class: 'iw-rrow' + (p.isSelf ? ' is-self' : '') },
             h('span', { class: 'iw-rrow__w', html: weaponIcon((this._weapons()[p.weapon] || {}).kind || p.weapon) }),
-            h('span', { class: 'iw-rrow__name' }, p.name, p.isSelf ? h('em', null, 'YOU') : null),
+            h('span', { class: 'iw-rrow__name' }, p.name, p.isSelf ? h('em', null, '나') : null),
             st);
           rosterRows.push({ row, st, name: p.name, team: p.team, sig: '' });
           return row;
         }));
     };
     const teams = h('div', { class: 'iw-pteams' }, roster(0), roster(1));
-    const ctlWrap = h('div', { class: 'iw-pctl' }, h('div', { class: 'iw-seclabel' }, h('i', { html: GLYPHS.gamepad }), 'QUICK CONTROLS'), this._controlsList(this._input, true));
+    const ctlWrap = h('div', { class: 'iw-pctl' }, h('div', { class: 'iw-seclabel' }, h('i', { html: GLYPHS.gamepad }), '빠른 조작법'), this._controlsList(this._input, true));
     const matchPanel = this._panel('iw-pmatch iw-panel--flat iw-in iw-in--right',
       h('div', { class: 'iw-pmatch__top' },
         h('div', { class: 'iw-pmatch__info' },
-          h('div', { class: 'iw-pmatch__mode' }, h('span', { class: 'iw-pmatch__tag' }, 'TURF WAR'), diff ? h('span', { class: 'iw-pmatch__diff' }, h('i', { html: GLYPHS.bot }), `${diff.name} bots`) : null),
-          h('div', { class: 'iw-pmatch__map' }, h('i', { html: GLYPHS.map }), snap.map || 'Turf War')),
+          h('div', { class: 'iw-pmatch__mode' }, h('span', { class: 'iw-pmatch__tag' }, '터프 워'), diff ? h('span', { class: 'iw-pmatch__diff' }, h('i', { html: GLYPHS.bot }), `봇 ${diff.name}`) : null),
+          h('div', { class: 'iw-pmatch__map' }, h('i', { html: GLYPHS.map }), snap.map || '터프 워')),
         clock),
       you, teams, ctlWrap);
     colorVars(matchPanel, 'ta', snap.colors[0]);
@@ -2099,7 +2099,7 @@ export class Menus {
       sTurf.b.innerHTML = `${fmtInt(me.turf || 0)}<small>p</small>`;
       sSplat.b.textContent = String(me.splats || 0);
       sDeath.b.textContent = String(me.deaths || 0);
-      sSp.b.textContent = me.special ? 'READY' : `${Math.round(clamp(me.specialFrac || 0) * 100)}%`;
+      sSp.b.textContent = me.special ? '준비됨' : `${Math.round(clamp(me.specialFrac || 0) * 100)}%`;
       sSp.el.classList.toggle('is-ready', !!me.special);
       sSp.el.style.setProperty('--sp', clamp(me.specialFrac || 0).toFixed(3));
       for (const r of rosterRows) {
@@ -2111,7 +2111,7 @@ export class Menus {
         r.row.classList.toggle('is-dead', !p.alive);
         r.row.classList.toggle('is-sp', p.alive && p.special);
         if (!p.alive) r.st.innerHTML = `<span class="iw-st iw-st--dead"><i>${DEATH_ICON}</i><b>${Math.max(1, Math.ceil(p.respawn))}s</b></span>`;
-        else if (p.special) r.st.innerHTML = `<span class="iw-st iw-st--sp"><i>${specialIcon((this._weapons()[p.weapon] || {}).special)}</i>READY</span>`;
+        else if (p.special) r.st.innerHTML = `<span class="iw-st iw-st--sp"><i>${specialIcon((this._weapons()[p.weapon] || {}).special)}</i>준비됨</span>`;
         else r.st.innerHTML = `<span class="iw-st iw-st--alive"><i>${SQUID}</i></span>`;
       }
     };
@@ -2120,10 +2120,10 @@ export class Menus {
     const el = h('div', { class: 'iw-screen iw-pause' },
       h('div', { class: 'iw-pause__dim' }),
       h('div', { class: 'iw-pause__col' },
-        h('div', { class: 'iw-pause__title iw-in iw-in--down' }, h('span', { class: 'iw-pause__blob', html: splatSVG({ seed: 3, cls: 'iw-fa', r: 60, arms: 8, drops: 4 }) }), h('span', { class: 'iw-display' }, 'PAUSED')),
+        h('div', { class: 'iw-pause__title iw-in iw-in--down' }, h('span', { class: 'iw-pause__blob', html: splatSVG({ seed: 3, cls: 'iw-fa', r: 60, arms: 8, drops: 4 }) }), h('span', { class: 'iw-display' }, '일시정지')),
         h('nav', { class: 'iw-pause__menu' }, btns)),
       matchPanel,
-      this._prompts([['Enter', 'A', 'Select'], ['Esc', 'Start', 'Resume']]));
+      this._prompts([['Enter', 'A', '선택'], ['Esc', 'Start', '계속하기']]));
     let acc = 0;
     return {
       el, wrap: true, initial: btns[0],
@@ -2155,15 +2155,15 @@ export class Menus {
     const reduced = prefersReducedMotion();
 
     // ---- title block: VICTORY/DEFEAT, stage, match tags, your medals
-    const titleEl = h('div', { class: 'iw-res__title iw-display' }, win ? 'VICTORY!' : 'DEFEAT');
+    const titleEl = h('div', { class: 'iw-res__title iw-display' }, win ? '승리!' : '패배');
     const tags = awards.match.map((t) => h('span', { class: `iw-res__tag iw-res__tag--${t.id}` }, h('i', { html: awardIcon(t.icon) }), t.label, h('small', null, t.value)));
     const myAwards = (self ? self._aw : []).slice(0, 4);
     const medals = myAwards.map((aw, i) => { const m = h('div', { class: 'iw-medalwrap', html: medalMarkup(aw, i) }).firstElementChild; return m; });
-    const medalRow = medals.length ? h('div', { class: 'iw-res__medals' + (medals.length > 3 ? ' is-4' : '') }, h('div', { class: 'iw-res__medalcap' }, 'YOUR MEDALS'), h('div', { class: 'iw-res__medallist' }, medals)) : null;
+    const medalRow = medals.length ? h('div', { class: 'iw-res__medals' + (medals.length > 3 ? ' is-4' : '') }, h('div', { class: 'iw-res__medalcap' }, '내 메달'), h('div', { class: 'iw-res__medallist' }, medals)) : null;
     const head = h('div', { class: 'iw-res__head iw-in iw-in--pop' + (win ? ' is-win' : ' is-lose') },
       h('div', { class: 'iw-res__splat', html: splatSVG({ seed: win ? 9 : 14, cls: 'iw-fta', r: 60, arms: 10, drops: 4 }) }),
       titleEl,
-      h('div', { class: 'iw-res__metarow' }, h('div', { class: 'iw-res__meta' }, h('i', { html: GLYPHS.map }), `${d.mapName || 'Turf War'} · Turf War`), tags),
+      h('div', { class: 'iw-res__metarow' }, h('div', { class: 'iw-res__meta' }, h('i', { html: GLYPHS.map }), `${d.mapName || '터프 워'} · 터프 워`), tags),
       medalRow);
 
     // ---- coverage bar (JS-driven growth so the numbers + sound land together)
@@ -2176,8 +2176,8 @@ export class Menus {
       h('i', { class: 'iw-cover__mid' }));
     const cover = h('div', { class: 'iw-res__cover iw-in' + (pa >= pb ? ' is-a' : ' is-b') },
       h('div', { class: 'iw-cover__names' },
-        h('span', { class: 'ta' + (pa >= pb ? ' is-win' : '') }, pa >= pb ? crownA : null, names[0] || 'Alpha', numA),
-        h('span', { class: 'tb' + (pb > pa ? ' is-win' : '') }, numB, names[1] || 'Bravo', pb > pa ? crownB : null)),
+        h('span', { class: 'ta' + (pa >= pb ? ' is-win' : '') }, pa >= pb ? crownA : null, names[0] || '알파', numA),
+        h('span', { class: 'tb' + (pb > pa ? ' is-win' : '') }, numB, names[1] || '브라보', pb > pa ? crownB : null)),
       coverBar);
 
     // ---- team tables with count-ups + award badges
@@ -2188,10 +2188,10 @@ export class Menus {
       const isWin = team === winTeam;
       return h('div', { class: `iw-ttable iw-ttable--${team ? 'b' : 'a'} ${isWin ? 'is-win' : 'is-lose'}` },
         h('div', { class: 'iw-ttable__head iw-in' },
-          h('span', { class: 'iw-ttable__team' }, h('i', { class: 'iw-ttable__dot' }), names[team] || TEAM_NAMES[team], isWin ? h('em', { class: 'iw-ttable__win' }, h('i', { html: GLYPHS.crown }), 'WIN') : null),
-          h('span', { class: 'iw-ttable__col', title: 'Turf inked' }, h('i', { html: GLYPHS.drop }), 'TURF'),
-          h('span', { class: 'iw-ttable__col', title: 'Splats' }, h('i', { html: SPLAT_ICON })),
-          h('span', { class: 'iw-ttable__col', title: 'Times splatted' }, h('i', { html: DEATH_ICON }))),
+          h('span', { class: 'iw-ttable__team' }, h('i', { class: 'iw-ttable__dot' }), names[team] || TEAM_NAMES[team], isWin ? h('em', { class: 'iw-ttable__win' }, h('i', { html: GLYPHS.crown }), '승리') : null),
+          h('span', { class: 'iw-ttable__col', title: '칠한 터프' }, h('i', { html: GLYPHS.drop }), '터프'),
+          h('span', { class: 'iw-ttable__col', title: '스플랫 수' }, h('i', { html: SPLAT_ICON })),
+          h('span', { class: 'iw-ttable__col', title: '스플랫 당한 횟수' }, h('i', { html: DEATH_ICON }))),
         rows.map((p, ri) => {
           const turfNum = h('b', null, '0');
           const turfBar = h('i', { class: 'iw-prow__turfbar' });
@@ -2201,7 +2201,7 @@ export class Menus {
           const isMvp = p._aw.some((a) => a.id === 'mvp');
           const row = h('div', { class: 'iw-prow iw-in iw-in--left' + (p.isSelf ? ' is-self' : '') + (isMvp ? ' is-mvp' : '') },
             h('span', { class: 'iw-prow__w', html: weaponIcon((this._weapons()[p.weapon] || {}).kind || p.weapon) }),
-            h('span', { class: 'iw-prow__name' }, h('span', { class: 'iw-prow__nm' }, p.name), p.isSelf ? h('em', null, 'YOU') : null, badges),
+            h('span', { class: 'iw-prow__name' }, h('span', { class: 'iw-prow__nm' }, p.name), p.isSelf ? h('em', null, '나') : null, badges),
             h('span', { class: 'iw-prow__turf' }, turfBar, turfNum, h('small', null, 'p')),
             nSplat, nDeath);
           rowFx.push({ row, turfNum, turfBar, nSplat, nDeath, badges, turf: p.turf || 0, rel: (p.turf || 0) / best, aws: p._aw.slice(0, 3), start: 0.8 + ri * 0.13, shown: -1, done: false });
@@ -2216,15 +2216,15 @@ export class Menus {
     const bar = h('span', { class: 'iw-xpbar iw-xpbar--big' }, h('i'));
     const gainEl = h('b', { class: 'iw-xp__gain' }, '+0 XP');
     const nextEl = h('span', { class: 'iw-xp__next' });
-    const lvUp = h('span', { class: 'iw-xp__lvup' }, 'LEVEL UP!');
+    const lvUp = h('span', { class: 'iw-xp__lvup' }, '레벨 업!');
     // honest XP breakdown (only when the parts add up to the reported gain)
     const bd = [];
     if (self) {
       const base = win ? PROGRESSION.xpWin : PROGRESSION.xpLose;
       const tx = Math.round((self.turf || 0) * PROGRESSION.xpPerTurfPoint), sx = Math.round((self.splats || 0) * PROGRESSION.xpPerSplat);
       if (xp.gained > 0 && Math.abs(base + tx + sx - xp.gained) <= 2) {
-        bd.push([win ? 'WIN BONUS' : 'MATCH', base], [`TURF`, tx]);
-        if (sx) bd.push(['SPLATS', sx]);
+        bd.push([win ? '승리 보너스' : '매치', base], [`터프`, tx]);
+        if (sx) bd.push(['스플랫', sx]);
       }
     }
     let acc = 0;
@@ -2233,10 +2233,10 @@ export class Menus {
       h('div', { class: 'iw-xp__mid' }, h('div', { class: 'iw-xp__row' }, h('span', null, gainEl, lvUp), nextEl), bar,
         bdEls.length ? h('div', { class: 'iw-xp__bd' }, bdEls.map((b) => b.el)) : null));
 
-    const rematch = this._btn({ id: 'rematch', label: 'REMATCH', icon: GLYPHS.reset, cls: 'iw-btn--wide iw-btn--primary iw-in iw-in--pop', sound: 'ui_confirm', accept: () => {
+    const rematch = this._btn({ id: 'rematch', label: '재대결', icon: GLYPHS.reset, cls: 'iw-btn--wide iw-btn--primary iw-in iw-in--pop', sound: 'ui_confirm', accept: () => {
       safeCall(() => this.api.rematch && this.api.rematch());
     } });
-    const home = this._btn({ id: 'home', label: 'MAIN MENU', icon: GLYPHS.back, cls: 'iw-btn--wide iw-in iw-in--pop', sound: 'ui_click', accept: () => {
+    const home = this._btn({ id: 'home', label: '메인 메뉴', icon: GLYPHS.back, cls: 'iw-btn--wide iw-in iw-in--pop', sound: 'ui_click', accept: () => {
       safeCall(() => this.api.toMainMenu && this.api.toMainMenu());
       if (this.current === 'results') this.show('main', { wipe: true });
     } });
@@ -2248,7 +2248,7 @@ export class Menus {
         cover,
         h('div', { class: 'iw-res__teams' }, table(0), table(1)),
         h('div', { class: 'iw-res__foot' }, xpPanel, h('div', { class: 'iw-res__btns' }, rematch, home))),
-      this._prompts([['Enter', 'A', 'Skip · Select'], [['←', '→'], 'DPad', 'Move']]));
+      this._prompts([['Enter', 'A', '건너뛰기 · 선택'], [['←', '→'], 'DPad', '이동']]));
     colorVars(el, 'ta', colors[0]);
     colorVars(el, 'tb', colors[1]);
     colorVars(el, 'tw', colors[0]);
@@ -2325,7 +2325,7 @@ export class Menus {
     }
     const totalFill = segs.reduce((a, s) => a + Math.max(0, s.to - s.from), 0) || 1;
     let si = 0, cur = segs[0].from, filled = 0, pause = 0, xpTick = 0, done = false;
-    const setBar = (v, max) => { bar.style.setProperty('--t', clamp(v / Math.max(1, max)).toFixed(4)); nextEl.textContent = `${fmtInt(Math.max(0, max - v))} XP to next level`; };
+    const setBar = (v, max) => { bar.style.setProperty('--t', clamp(v / Math.max(1, max)).toFixed(4)); nextEl.textContent = `다음 레벨까지 ${fmtInt(Math.max(0, max - v))} XP`; };
     setBar(cur, segs[0].max);
     const showBd = (frac) => { for (const b of bdEls) if (!b.shown && frac >= b.at - 1e-6) { b.shown = true; b.el.classList.add('is-in'); } };
     const finish = () => {

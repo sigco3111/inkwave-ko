@@ -1,100 +1,51 @@
-<p align="center">
-  <img src="assets/stages/halyard-day.webp" alt="Halyard Marina at golden hour" width="100%">
-</p>
+# INKWAVE 한글판 (inkwave-ko)
 
-<h1 align="center">INKWAVE</h1>
+[DevFrancois/inkwave](https://github.com/DevFrancois/inkwave)의 한국어 로컬라이즈 버전입니다. 브라우저에서 바로 플레이할 수 있는 4 대 4 터프 워 잉크 슈터입니다.
 
-<p align="center">
-  An original Splatoon-style 4v4 turf-war shooter that runs in your browser.<br>
-  Paint the ground, swim through your ink, out-turf the other team.
-</p>
+**플레이:** https://sigco3111.github.io/inkwave-ko/
 
-<p align="center">
-  <a href="https://inkwave-aah.pages.dev"><b>▶ Play now</b></a> ·
-  <a href="#controls">Controls</a> ·
-  <a href="#running-locally">Run locally</a> ·
-  <a href="#how-it-works">How it works</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a>
-</p>
+## 소개
 
-<p align="center">
-  <a href="https://github.com/jaydendavisnc/inkwave/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/jaydendavisnc/inkwave/actions/workflows/ci.yml/badge.svg"></a>
-  <img alt="three.js r186" src="https://img.shields.io/badge/three.js-r186-000000?logo=three.js&logoColor=white">
-  <img alt="No build step" src="https://img.shields.io/badge/build-none%20needed-2ea44f">
-  <a href="LICENSE"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue"></a>
-</p>
+광장을 우리 팀 잉크로 칠하고, 오징어로 변신해 잉크 속을 헤엄치고, 상대 팀을 스플랫하세요. 시간이 끝났을 때 더 넓은 터프를 칠한 팀이 승리합니다. 봇과 함께하는 4 대 4 터프 워를 세 가지 스테이지(타이드워터 광장, 켈프라인 터미널, 홀리야드 마리나)와 낮/황혼 두 시간대로 즐길 수 있습니다.
 
----
+## 특징
 
-## Features
+- 무기 7종: 스프리처, 스웰 롤러, 글린트 차저, 팝퍼 블래스터, 트윈핀 듀얼리, 타이드버킷 슬로셔, 자이어 스플랫링
+- 서브 무기(스플랫 밤)와 스페셜(타이달 슬램, 잉크 템페스트)
+- 오징어키즈 커스터마이즈: 촉수 스타일, 모자, 눈, 눈썹, 피부톤, 옷
+- 슈퍼 점프, 미니맵, 팀 라인업, 결과 메달과 XP/레벨 성장
+- 키보드+마우스 / 컨트롤러 지원, 난이도 3단계
+- 메뉴, HUD, 월드 간판·포스터·표지판까지 전면 한글화
 
-- **Turf war, 4 v 4.** Three minutes, most ground painted wins. Play against bots on three difficulty levels.
-- **Squid form.** Hold to dive into your ink: swim fast, refill your tank, climb inked walls, dolphin-jump water gaps.
-- **Seven weapons**, each with its own feel: Spritzer (shooter), Swell Roller, Glint Charger, Popper Blaster, Twinfin Dualies (dodge roll), Tidebucket Slosher and Gyre Splatling. Every kit comes with Splat Bombs and a special.
-- **Three stages, day or dusk.** Tidewater Plaza, Kelpline Terminal and Halyard Marina, a working marina with a car ferry moored across the middle where the water gaps are the whole point.
-- **Ink that behaves like liquid.** Splats spread and settle, fresh ink is glossy and dries, drips run down walls, and swimming leaves a wake in the surface itself.
-- **A map you can actually read.** Hold <kbd>Tab</kbd> and the camera cranes up into a tilt-shift diorama of the live stage, with pins for your team and one-click Super Jumps.
-- **Locker.** Choose your squidkid: tentacle style, headgear, face, outfit.
-- **Everything procedural.** Characters, animation, weapons, textures, props, sound effects and music are all generated in code. There are no downloaded assets except two fonts.
+## 스크린샷
 
-<p align="center">
-  <img src="assets/stages/tidewater-day.webp" width="49%" alt="Tidewater Plaza">
-  <img src="assets/stages/kelpline-dusk.webp" width="49%" alt="Kelpline Terminal at dusk">
-</p>
+(배포 후 추가)
 
-## Controls
+## 설치 및 실행
 
-| Action | Keyboard / mouse | Gamepad |
-|---|---|---|
-| Move | <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> | Left stick |
-| Aim | Mouse | Right stick |
-| Fire | Left click | RT |
-| Squid form | <kbd>Shift</kbd> | LT |
-| Jump / dodge roll | <kbd>Space</kbd> | A |
-| Sub weapon (bomb) | Right click / <kbd>E</kbd> | RB |
-| Special | <kbd>F</kbd> | Y |
-| Map + Super Jump | Hold <kbd>Tab</kbd> or <kbd>M</kbd>, then <kbd>1</kbd>–<kbd>4</kbd> or click a pin | View |
-| Pause | <kbd>Esc</kbd> | Start |
-
-Gamepads work on the hosted (https) version. On a plain `http://` LAN address browsers block the Gamepad API.
-
-## Running locally
-
-There is no build step. Any static file server works; the included one also serves to your LAN and sends no-cache headers so module updates are never stale.
+정적 사이트라 빌드 도구 없이 실행됩니다.
 
 ```bash
-git clone https://github.com/jaydendavisnc/inkwave.git
-cd inkwave
-npm start        # http://localhost:8490
+# 로컬에서 실행 (ES 모듈이라 http 서버 필요)
+python3 -m http.server 8000
+# http://localhost:8000 접속
 ```
 
-Useful URL parameters: `?map=halyard&time=dusk` picks a stage, `&autostart=180` skips the menus into a 180 s match, `&autopilot` lets a bot drive you.
+배포용 산출물 생성:
 
 ```bash
-npm install      # once, for the headless tools
-npm run check    # syntax-check every module
-npm run smoke    # boot + 8 s of autopilot in headless Chrome, fails on console errors
-npm run build    # assemble dist/ (game + only the three.js addons it imports)
+python3 tools/build-dist.py   # dist/ 폴더 생성
 ```
 
-## How it works
+## 기술 노트
 
-- **Ink is painted in texture space.** Every paintable face owns a region of one 4K atlas; splats are drawn into it on the GPU while a coarse CPU grid keeps the turf score and gameplay queries in sync. The level shader layers the ink over the surface with its own height, gloss and wetness. See [`src/world/paint.js`](src/world/paint.js) and [`src/world/inkShading.js`](src/world/inkShading.js).
-- **Stages are data.** A layout is a list of boxes and ramps for one half of the arena; the other half is the 180° rotation, so both teams always get an identical field. Ambient occlusion is baked offline (`tools/bake-ao.mjs`). See [`src/world/maps.js`](src/world/maps.js).
-- **Characters are fully procedural.** Geometry, materials, a 60-bone rig and every animation (locomotion, squid form, weapon poses, secondary motion) are code, driven by a spring-based pose system. See [`docs/RIG.md`](docs/RIG.md).
-- **Systems talk through events.** Weapons, actors and the match emit typed events; effects, HUD and audio subscribe. The contract is documented in [`docs/EVENTS.md`](docs/EVENTS.md) and [`docs/CONTRACTS.md`](docs/CONTRACTS.md).
-- **Deterministic tooling.** The game exposes a freeze/step debug interface so filmstrips, handling measurements and bot simulations are reproducible frame by frame (`tools/film.py`, `tools/measure-handling.mjs`).
+- three.js 기반 절차적 생성: 캐릭터, 무기, 스테이지, 잉크, 음악, 효과음 모두 코드로 생성
+- 한글화 범위: UI 전체(menus/hud/menu-art/diorama), 설정·무기·스테이지·캐릭터 데이터(config/character-style), 게임 피드·프롬프트(main), 캔버스 벽화(murals), 소품 텍스처 아틀라스의 표지판·포스터(props)
+- 한글 폰트: Noto Sans KR(Google Fonts) — CSS와 캔버스 렌더링 모두 폰트 스택에 추가
+- 예외: 홀리야드 마리나의 선체·부두 3D 입체 글자는 커스텀 글리프 빌더가 한글을 지원하지 않아 라틴 유지
 
-Rendering is three.js r186 (vendored, plain ES modules with an import map) with GTAO, bloom and a custom grade pass.
+## 라이선스 및 크레딧
 
-## Browser support
-
-Chrome and Edge are the target; Firefox works. Safari runs but is slower. A discrete or recent integrated GPU is recommended for the High preset; the settings menu has Medium and Low tiers.
-
-## Contributing
-
-Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the project layout and the checks to run first.
-
-## License
-
-[MIT](LICENSE) © 2026 Jayden Davis. INKWAVE is an independent project and is not affiliated with Nintendo; Splatoon is a trademark of Nintendo.
+- 원작: [DevFrancois/inkwave](https://github.com/DevFrancois/inkwave) — Copyright 2026 Jayden Davis, MIT License
+- 한글화: sigco3111
+- 폰트: Titan One (Font Diner), Rubik (Hubert & Fischer), Noto Sans KR (Google) — SIL Open Font License

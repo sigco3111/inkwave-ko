@@ -47,18 +47,18 @@ export const awardIcon = (id) => AWARD_ICONS[id] || AWARD_ICONS.star;
 
 // ================================================================================== awards
 export const AWARDS = {
-  mvp: { label: 'MVP', metal: 'gold', icon: 'star', desc: 'Best all-round score on the winning team' },
-  turf: { label: 'TURF KING', metal: 'gold', icon: 'crown', desc: 'Most turf inked in the match' },
-  splats: { label: 'TOP SPLATTER', metal: 'silver', icon: 'splat', desc: 'Most splats in the match' },
-  inker: { label: 'TOP INKER', metal: 'silver', icon: 'roller', desc: 'Most turf inked on their team' },
-  untouchable: { label: 'UNTOUCHABLE', metal: 'bronze', icon: 'shield', desc: 'Never got splatted' },
-  survivor: { label: 'SURVIVOR', metal: 'bronze', icon: 'buoy', desc: 'Splatted the fewest times' },
-  pure: { label: 'PURE PAINTER', metal: 'bronze', icon: 'brush', desc: 'Top-3 turf without splatting anyone' },
+  mvp: { label: 'MVP', metal: 'gold', icon: 'star', desc: '승리 팀 최고의 종합 활약' },
+  turf: { label: '터프 킹', metal: 'gold', icon: 'crown', desc: '매치 최다 터프' },
+  splats: { label: '스플랫왕', metal: 'silver', icon: 'splat', desc: '매치 최다 스플랫' },
+  inker: { label: '팀 최다 칠하기', metal: 'silver', icon: 'roller', desc: '팀 내 최다 터프' },
+  untouchable: { label: '언터처블', metal: 'bronze', icon: 'shield', desc: '한 번도 스플랫 당하지 않음' },
+  survivor: { label: '생존왕', metal: 'bronze', icon: 'buoy', desc: '최소 스플랫 당함' },
+  pure: { label: '순수 페인터', metal: 'bronze', icon: 'brush', desc: '스플랫 없이 터프 상위 3위' },
 };
 const AWARD_ORDER = ['mvp', 'turf', 'splats', 'inker', 'untouchable', 'survivor', 'pure'];
 export const MATCH_TAGS = {
-  close: { id: 'close', label: 'PHOTO FINISH', icon: 'stopwatch' },
-  landslide: { id: 'landslide', label: 'LANDSLIDE', icon: 'wave' },
+  close: { id: 'close', label: '박빙 승부', icon: 'stopwatch' },
+  landslide: { id: 'landslide', label: '압도적 승리', icon: 'wave' },
 };
 
 /**
@@ -88,7 +88,7 @@ export function computeAwards(players = [], { win = true, percents = [50, 50] } 
     // Untouchable (never splatted — only special when few managed it) / Survivor (unique fewest)
     const active = P.filter((p) => p.turf >= 30 || p.splats > 0);
     const zero = active.filter((p) => p.deaths === 0);
-    if (zero.length && zero.length <= 3) zero.forEach((p) => give(p, 'untouchable', 'Never splatted'));
+    if (zero.length && zero.length <= 3) zero.forEach((p) => give(p, 'untouchable', '무사고'));
     else if (!zero.length && active.length) {
       const md = Math.min(...active.map((p) => p.deaths));
       const s = active.filter((p) => p.deaths === md);
@@ -136,11 +136,11 @@ export function awardBadge(aw) {
 
 // ================================================================================== ranks
 export const RANK_TIERS = [
-  { lv: 1, name: 'Fresh Recruit', cls: 'is-t0' },
-  { lv: 5, name: 'Turf Scrapper', cls: 'is-t1' },
-  { lv: 10, name: 'Ink Slinger', cls: 'is-t2' },
-  { lv: 20, name: 'Splat Veteran', cls: 'is-t3' },
-  { lv: 30, name: 'Tide Legend', cls: 'is-t4' },
+  { lv: 1, name: '풋내기 루키', cls: 'is-t0' },
+  { lv: 5, name: '터프 싸움꾼', cls: 'is-t1' },
+  { lv: 10, name: '잉크 명사수', cls: 'is-t2' },
+  { lv: 20, name: '스플랫 베테랑', cls: 'is-t3' },
+  { lv: 30, name: '파도의 전설', cls: 'is-t4' },
 ];
 export const rankTier = (level) => RANK_TIERS.reduce((acc, r, i) => (level >= r.lv ? i : acc), 0);
 /** Shield emblem with one pip per tier (tier 0..4). Colour via CSS (--rk). */
@@ -579,7 +579,7 @@ function previewFov(ctx) {
 }
 
 function previewQuality(ctx) {
-  const tiers = [['low', 'LOW'], ['medium', 'MED'], ['high', 'HIGH'], ['ultra', 'ULTRA']];
+  const tiers = [['low', '낮음'], ['medium', '중간'], ['high', '높음'], ['ultra', '최고']];
   const ladder = h('div', { class: 'iw-pv-ladder' }, tiers.map(([id, lab], i) => h('span', { class: 'iw-pv-ladder__col', 'data-q': id, style: { '--h': (0.3 + i * 0.233).toFixed(3) } }, h('i'), h('b', null, lab))));
   const chips = h('div', { class: 'iw-pv-chips' });
   const el = h('div', { class: 'iw-pv iw-pv--quality' }, ladder, chips);
@@ -588,12 +588,12 @@ function previewQuality(ctx) {
     const q = Q[v] || Q.high || {};
     ladder.querySelectorAll('.iw-pv-ladder__col').forEach((c) => c.classList.toggle('is-on', c.dataset.q === v));
     const rows = [
-      ['Pixel density', `up to ${(+q.pixelRatio || 1).toFixed(q.pixelRatio % 1 ? 2 : 1).replace(/0$/, '')}×`],
-      ['Shadow map', `${q.shadowSize || 0}px`],
-      ['Anti-aliasing', q.msaa ? `${q.msaa}× MSAA` : 'Off'],
-      ['Ink detail', `${Math.round((q.paintAtlas || 2048) / 1024)}K atlas`],
-      ['Ambient occlusion', q.ao ? 'On' : 'Off'],
-      ['Particles', `${Math.round((q.particles ?? 1) * 100)}%`],
+      ['픽셀 밀도', `up to ${(+q.pixelRatio || 1).toFixed(q.pixelRatio % 1 ? 2 : 1).replace(/0$/, '')}×`],
+      ['그림자 맵', `${q.shadowSize || 0}px`],
+      ['안티앨리어싱', q.msaa ? `${q.msaa}× MSAA` : '끔'],
+      ['잉크 디테일', `${Math.round((q.paintAtlas || 2048) / 1024)}K atlas`],
+      ['앰비언트 오클루전', q.ao ? '켬' : '끔'],
+      ['파티클', `${Math.round((q.particles ?? 1) * 100)}%`],
     ];
     chips.innerHTML = '';
     rows.forEach(([k, val], i) => chips.appendChild(h('span', { class: 'iw-pv-chip' + (/Off|0%/.test(val) ? ' is-off' : ''), style: { '--i': i } }, h('small', null, k), h('b', null, val))));
@@ -777,7 +777,7 @@ function previewColorblind(ctx) {
   const pair = (a, b) => `<span class="iw-pv-pair"><i style="background:${a}"></i><i style="background:${b}"></i></span>`;
   const el = h('div', { class: 'iw-pv iw-pv--cb', html: `
     <div class="iw-pv-pal iw-pv-pal--std"><small>STANDARD INKS · rotate each match</small><div class="iw-pv-pal__row">${pals.map((p) => pair(p.a, p.b)).join('')}</div><i class="iw-pv-pal__check">${GLYPHS.check}</i></div>
-    <div class="iw-pv-pal iw-pv-pal--cb"><small>COLORBLIND-SAFE · always</small><div class="iw-pv-pal__row">${pair(cb.a, cb.b)}<span class="iw-pv-pal__name">${(cb.names || ['Sun', 'Sea']).join(' vs ')}</span></div><i class="iw-pv-pal__check">${GLYPHS.check}</i></div>` });
+    <div class="iw-pv-pal iw-pv-pal--cb"><small>색약 안전 · 항상</small><div class="iw-pv-pal__row">${pair(cb.a, cb.b)}<span class="iw-pv-pal__name">${(cb.names || ['태양', '바다']).join(' vs ')}</span></div><i class="iw-pv-pal__check">${GLYPHS.check}</i></div>` });
   const set = (v) => el.classList.toggle('is-on', !!v);
   set(ctx.value);
   return { el, set };

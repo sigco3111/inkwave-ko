@@ -183,11 +183,11 @@ export class DioramaOverlay {
 
   _head() {
     const m = G.game?.mapDef;
-    this.title.textContent = (m?.name || 'Stage').toUpperCase();
-    this.when.textContent = G.game?.time === 'dusk' ? 'DUSK' : 'DAY';
+    this.title.textContent = (m?.name || '스테이지').toUpperCase();
+    this.when.textContent = G.game?.time === 'dusk' ? '황혼' : '낮';
     const pad = G.input?.lastDevice === 'pad';
     this.foot.innerHTML = pad
-      ? richText('Right stick to point · A or D-pad to Super Jump · release VIEW to close')
-      : `${keycap('1')}${keycap('2')}${keycap('3')} <span>Super Jump to a teammate</span> ${keycap('4')} <span>Base</span> <em>·</em> <span>Point + click a pin</span> <em>·</em> <span>release</span> ${keycap('TAB')}`;
+      ? richText('오른쪽 스틱으로 가리키기 · A 또는 십자키로 슈퍼 점프 · VIEW를 놓으면 닫기')
+      : `${keycap('1')}${keycap('2')}${keycap('3')} <span>팀원에게 슈퍼 점프</span> ${keycap('4')} <span>기지</span> <em>·</em> <span>핀을 가리켜 클릭</span> <em>·</em> <span>놓으면 닫기</span> ${keycap('TAB')}`;
   }
 }

@@ -357,11 +357,11 @@ function loadFonts() {
   if (typeof FontFace === 'undefined' || typeof document === 'undefined') return (_fontPromise = Promise.resolve());
   const d = new FontFace(FONT_D, `url(${new URL('../../assets/fonts/TitanOne-latin.woff2', import.meta.url)})`);
   const t = new FontFace(FONT_T, `url(${new URL('../../assets/fonts/Rubik-latin.woff2', import.meta.url)})`, { weight: '400 900' });
-  _fontPromise = Promise.all([d.load(), t.load()]).then((f) => { f.forEach((x) => document.fonts.add(x)); }).catch(() => {});
+  _fontPromise = Promise.all([d.load(), t.load(), document.fonts.load('900 100px "Noto Sans KR"').catch(() => {})]).then((f) => { f.forEach((x) => x && x.family && document.fonts.add(x)); }).catch(() => {});
   return _fontPromise;
 }
-const FD = (px) => `${px}px ${FONT_D}, 'Titan One', 'Arial Black', sans-serif`;
-const FT = (px, w = 800) => `${w} ${px}px ${FONT_T}, Rubik, 'Arial', sans-serif`;
+const FD = (px) => `${px}px ${FONT_D}, 'Titan One', 'Noto Sans KR', 'Arial Black', sans-serif`;
+const FT = (px, w = 800) => `${w} ${px}px ${FONT_T}, Rubik, 'Noto Sans KR', 'Arial', sans-serif`;
 function rr(x, g, y, w, h, r) { x.beginPath(); x.roundRect(g, y, w, h, r); }
 function fitText(x, s, maxW, px, fontFn) { let p = px; x.font = fontFn(p); while (x.measureText(s).width > maxW && p > 8) { p -= 2; x.font = fontFn(p); } return p; }
 function txt(x, s, cx, cy, px, fontFn, fill, stroke = null, sw = 0, maxW = 9999, align = 'center') {
@@ -398,9 +398,9 @@ function drawAtlas(x) {
     x.strokeStyle = '#f2eee6'; x.lineWidth = 15; x.lineCap = 'round';
     x.beginPath(); x.moveTo(56, 150); x.bezierCurveTo(74, 72, 140, 62, 160, 110); x.bezierCurveTo(175, 150, 120, 170, 110, 135); x.bezierCurveTo(102, 110, 135, 100, 140, 120); x.stroke();
     x.beginPath(); x.moveTo(52, 180); x.quadraticCurveTo(80, 164, 108, 180); x.quadraticCurveTo(136, 196, 164, 180); x.stroke();
-    txt(x, 'KRAKEN', 355, 100, 74, FD, '#f2eee6', null, 0, 280);
-    txt(x, 'LINES', 355, 168, 60, FD, '#e5b94d', null, 0, 280);
-    txt(x, 'HARBOR FREIGHT  ·  EST. 1998', 355, 218, 18, FT, '#9fb0cc', null, 0, 280);
+    txt(x, '크라켄', 355, 100, 74, FD, '#f2eee6', null, 0, 280);
+    txt(x, '해운', 355, 168, 60, FD, '#e5b94d', null, 0, 280);
+    txt(x, '항구 화물  ·  1998년 설립', 355, 218, 18, FT, '#9fb0cc', null, 0, 280);
   });
   // --- sign1: TIDE SNACKS
   region(x, 'sign1', (x, w, h) => {
@@ -413,9 +413,9 @@ function drawAtlas(x) {
     x.fillStyle = '#fff'; x.beginPath(); x.arc(84, 116, 15, 0, TAU); x.fill(); x.fillStyle = '#2c2e35'; x.beginPath(); x.arc(80, 116, 8, 0, TAU); x.fill();
     x.strokeStyle = '#2c2e35'; x.lineWidth = 5; x.lineCap = 'round'; x.beginPath(); x.arc(92, 146, 14, 0.2, 1.9); x.stroke();
     x.fillStyle = '#c4614f'; for (const [px, py] of [[122, 108], [140, 132], [118, 156], [152, 110]]) { x.beginPath(); x.arc(px, py, 5, 0, TAU); x.fill(); }
-    txt(x, 'TIDE', 368, 92, 86, FD, '#e9836c', '#fff', 14, 260);
-    txt(x, 'SNACKS', 368, 172, 58, FD, '#35405a', '#fff', 10, 270);
-    x.save(); x.translate(470, 36); x.rotate(0.25); x.fillStyle = '#35405a'; rr(x, -44, -16, 88, 32, 10); x.fill(); txt(x, 'CRUNCH!', 0, 1, 20, FD, '#f0c65c', null, 0, 80); x.restore();
+    txt(x, '타이드', 368, 92, 86, FD, '#e9836c', '#fff', 14, 260);
+    txt(x, '스낵', 368, 172, 58, FD, '#35405a', '#fff', 10, 270);
+    x.save(); x.translate(470, 36); x.rotate(0.25); x.fillStyle = '#35405a'; rr(x, -44, -16, 88, 32, 10); x.fill(); txt(x, '바삭!', 0, 1, 20, FD, '#f0c65c', null, 0, 80); x.restore();
   });
   // --- sign2: SQUIDKID SKATE
   region(x, 'sign2', (x, w, h) => {
@@ -428,9 +428,9 @@ function drawAtlas(x) {
     x.fillStyle = '#2c2e35'; x.beginPath(); x.arc(-14, -17, 7, 0, TAU); x.arc(18, -17, 7, 0, TAU); x.fill();
     x.fillStyle = '#e5b94d'; for (const yy of [-78, 78]) for (const xx of [-30, 30]) { x.beginPath(); x.arc(xx, yy, 11, 0, TAU); x.fill(); }
     x.restore();
-    x.save(); x.translate(350, 100); x.rotate(-0.08); txt(x, 'SQUIDKID', 0, 0, 70, FD, '#2c2e35', null, 0, 300); x.restore();
-    x.save(); x.translate(356, 172); x.rotate(-0.08); x.fillStyle = '#e9836c'; rr(x, -104, -32, 208, 64, 16); x.fill(); txt(x, 'SKATE', 0, 2, 50, FD, '#fff', null, 0, 190); x.restore();
-    txt(x, 'DECKS · WHEELS · GEAR', 350, 228, 16, FT, '#7c70bd', null, 0, 280);
+    x.save(); x.translate(350, 100); x.rotate(-0.08); txt(x, '오징어키즈', 0, 0, 70, FD, '#2c2e35', null, 0, 300); x.restore();
+    x.save(); x.translate(356, 172); x.rotate(-0.08); x.fillStyle = '#e9836c'; rr(x, -104, -32, 208, 64, 16); x.fill(); txt(x, '스케이트', 0, 2, 50, FD, '#fff', null, 0, 190); x.restore();
+    txt(x, '데크 · 휠 · 장비', 350, 228, 16, FT, '#7c70bd', null, 0, 280);
   });
   // --- sign3: BARNACLE BREW
   region(x, 'sign3', (x, w, h) => {
@@ -441,9 +441,9 @@ function drawAtlas(x) {
     x.fillStyle = '#c4614f'; x.fillRect(64, 128, 104, 22);
     x.strokeStyle = '#e5b94d'; x.lineWidth = 8; x.lineCap = 'round';
     for (const ox of [92, 118, 144]) { x.beginPath(); x.moveTo(ox, 80); x.bezierCurveTo(ox - 14, 64, ox + 14, 52, ox, 34); x.stroke(); }
-    txt(x, 'BARNACLE', 348, 98, 64, FD, '#f2eee6', null, 0, 300);
-    txt(x, 'BREW', 348, 164, 64, FD, '#e5b94d', null, 0, 300);
-    txt(x, 'COLD BREW · SODA · SHAKES', 348, 214, 17, FT, '#bfe3dc', null, 0, 300);
+    txt(x, '바나클', 348, 98, 64, FD, '#f2eee6', null, 0, 300);
+    txt(x, '브루', 348, 164, 64, FD, '#e5b94d', null, 0, 300);
+    txt(x, '콜드 브루 · 소다 · 셰이크', 348, 214, 17, FT, '#bfe3dc', null, 0, 300);
   });
   // --- vending fronts (glowing product windows)
   const vend = (name, bg0, bg1, draw) => region(x, name, (x, w, h) => {
@@ -492,15 +492,15 @@ function drawAtlas(x) {
     x.fillStyle = '#2c2e35'; x.beginPath(); x.arc(w / 2 - 18, 218, 7, 0, TAU); x.arc(w / 2 + 22, 218, 7, 0, TAU); x.fill();
     x.strokeStyle = '#fff'; x.lineWidth = 10; x.lineCap = 'round';
     x.beginPath(); for (let i = 0; i <= 16; i++) { const px = 28 + (i / 16) * (w - 56); x.lineTo(px, 356 + Math.sin(i * 1.2) * 10); } x.stroke();
-    txt(x, 'INK', w / 2, 404, 44, FD, '#fff', null, 0, 200);
+    txt(x, '잉크', w / 2, 404, 44, FD, '#fff', null, 0, 200);
   });
   // vending headers (glow)
-  region(x, 'head0', (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#2f7f78'); g.addColorStop(1, '#47aea3'); x.fillStyle = g; x.fillRect(0, 0, w, h); txt(x, 'FIZZ CURRENT', w / 2, h / 2 + 4, 64, FD, '#ffffff', null, 0, w - 60); for (const [bx, by, br] of [[26, 30, 9], [44, 80, 6], [486, 40, 8], [470, 92, 5]]) { x.strokeStyle = '#d9fff8'; x.lineWidth = 4; x.beginPath(); x.arc(bx, by, br, 0, TAU); x.stroke(); } });
-  region(x, 'head1', (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#c4614f'); g.addColorStop(1, '#e9836c'); x.fillStyle = g; x.fillRect(0, 0, w, h); txt(x, 'TIDE SNACKS', w / 2, h / 2 + 4, 64, FD, '#fff4dc', null, 0, w - 60); });
+  region(x, 'head0', (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#2f7f78'); g.addColorStop(1, '#47aea3'); x.fillStyle = g; x.fillRect(0, 0, w, h); txt(x, '피즈 커런트', w / 2, h / 2 + 4, 64, FD, '#ffffff', null, 0, w - 60); for (const [bx, by, br] of [[26, 30, 9], [44, 80, 6], [486, 40, 8], [470, 92, 5]]) { x.strokeStyle = '#d9fff8'; x.lineWidth = 4; x.beginPath(); x.arc(bx, by, br, 0, TAU); x.stroke(); } });
+  region(x, 'head1', (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#c4614f'); g.addColorStop(1, '#e9836c'); x.fillStyle = g; x.fillRect(0, 0, w, h); txt(x, '타이드 스낵', w / 2, h / 2 + 4, 64, FD, '#fff4dc', null, 0, w - 60); });
   // container stencil (alpha)
   region(x, 'stencil', (x, w, h) => {
     x.clearRect(0, 0, w, h);
-    txt(x, 'KRAKEN LINES', w / 2, 62, 66, FD, '#fff', null, 0, w - 30);
+    txt(x, '크라켄 해운', w / 2, 62, 66, FD, '#fff', null, 0, w - 30);
     x.fillStyle = '#fff'; x.fillRect(24, 106, w - 48, 8);
     txt(x, 'KRKU 204519  3', 30, 150, 40, FT, '#fff', null, 0, w - 60, 'left');
     txt(x, 'MAX GROSS 30,480 KG', 30, 196, 26, FT, '#fff', null, 0, w - 60, 'left');
@@ -512,8 +512,8 @@ function drawAtlas(x) {
   region(x, 'tag', (x, w, h) => {
     x.clearRect(0, 0, w, h);
     x.save(); x.translate(w / 2, h / 2); x.rotate(-0.1);
-    txt(x, 'SK8 SQUAD', 6, 8, 96, FD, '#2c2e35', '#2c2e35', 26, w - 50);
-    txt(x, 'SK8 SQUAD', 0, 0, 96, FD, '#ffffff', '#2c2e35', 12, w - 50);
+    txt(x, 'SK8 스쿼드', 6, 8, 96, FD, '#2c2e35', '#2c2e35', 26, w - 50);
+    txt(x, 'SK8 스쿼드', 0, 0, 96, FD, '#ffffff', '#2c2e35', 12, w - 50);
     x.restore();
     x.fillStyle = '#fff'; for (const [sx, sy] of [[60, 40], [460, 210], [470, 50]]) { x.beginPath(); for (let i = 0; i < 8; i++) { const a = (i / 8) * TAU, r = i % 2 ? 7 : 18; x.lineTo(sx + Math.cos(a) * r, sy + Math.sin(a) * r); } x.fill(); }
   });
@@ -524,8 +524,8 @@ function drawAtlas(x) {
     x.lineWidth = 9; for (let i = 0; i < 8; i++) { const a = (i / 8) * TAU; x.beginPath(); x.moveTo(w / 2 + Math.cos(a) * 20, h / 2 + Math.sin(a) * 20); x.lineTo(w / 2 + Math.cos(a) * 124, h / 2 + Math.sin(a) * 124); x.stroke(); }
     x.fillStyle = '#fff'; x.beginPath(); x.arc(w / 2, h / 2, 22, 0, TAU); x.fill();
   });
-  region(x, 'badge', (x, w, h) => { x.fillStyle = '#f2eee6'; rr(x, 0, 0, w, h, 18); x.fill(); x.fillStyle = '#35405a'; rr(x, 8, 8, w - 16, h - 16, 12); x.fill(); txt(x, 'KOOLWAVE', w / 2, h / 2 + 3, 44, FD, '#f2eee6', null, 0, w - 36); });
-  region(x, 'wbadge', (x, w, h) => { x.fillStyle = '#2c2e35'; rr(x, 0, 0, w, h, 18); x.fill(); txt(x, 'BOOMTIDE', w / 2, h / 2 + 3, 46, FD, '#e5b94d', null, 0, w - 36); });
+  region(x, 'badge', (x, w, h) => { x.fillStyle = '#f2eee6'; rr(x, 0, 0, w, h, 18); x.fill(); x.fillStyle = '#35405a'; rr(x, 8, 8, w - 16, h - 16, 12); x.fill(); txt(x, '쿨웨이브', w / 2, h / 2 + 3, 44, FD, '#f2eee6', null, 0, w - 36); });
+  region(x, 'wbadge', (x, w, h) => { x.fillStyle = '#2c2e35'; rr(x, 0, 0, w, h, 18); x.fill(); txt(x, '붐타이드', w / 2, h / 2 + 3, 46, FD, '#e5b94d', null, 0, w - 36); });
   region(x, 'white', (x, w, h) => { x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); });
   region(x, 'clear', (x, w, h) => { x.clearRect(0, 0, w, h); });
   drawStreetPrint(x);
@@ -634,12 +634,12 @@ function drawStreetPrint(x) {
     x.beginPath(); x.moveTo(140, 96); x.lineTo(108, 170); x.lineTo(134, 170); x.lineTo(112, 248); x.lineTo(160, 156); x.lineTo(134, 156); x.lineTo(156, 96); x.closePath(); x.fill(); x.stroke();
     miniSquid(x, 62, 172, 30, I.cream, I.coraldk, '#fff');
     miniSquid(x, 200, 188, 30, I.cream, I.tealdk, '#fff');
-    txt(x, 'TURF WAR', w / 2, 46, 46, FD, I.navy, I.cream, 10, w - 20);
+    txt(x, '터프 워', w / 2, 46, 46, FD, I.navy, I.cream, 10, w - 20);
     ribbon(x, w / 2, 282, 170, 44, I.mustard, '#b98f2f');
-    txt(x, 'FINALS', w / 2, 284, 36, FD, I.navy, null, 0, 160);
-    txt(x, 'SAT · 8PM', w / 2, 326, 22, FT, I.navy, null, 0, w - 30, 'center');
-    txt(x, 'PIER 3 ARENA · FREE ENTRY', w / 2, 348, 12, FT, I.coraldk, null, 0, w - 30);
-    x.fillStyle = I.navy; x.fillRect(0, h - 18, w, 18); txt(x, 'LIVE ON SQUID RADIO 88.2 FM', w / 2, h - 9, 10, FT, I.cream, null, 0, w - 20);
+    txt(x, '결승전', w / 2, 284, 36, FD, I.navy, null, 0, 160);
+    txt(x, '토 · 저녁 8시', w / 2, 326, 22, FT, I.navy, null, 0, w - 30, 'center');
+    txt(x, '3번 부두 아레나 · 무료 입장', w / 2, 348, 12, FT, I.coraldk, null, 0, w - 30);
+    x.fillStyle = I.navy; x.fillRect(0, h - 18, w, 18); txt(x, '오징어 라디오 88.2 FM 생중계', w / 2, h - 9, 10, FT, I.cream, null, 0, w - 20);
     vignette(x, w, h);
   });
   region(x, 'pst1', (x, w, h) => { // LOW TIDE RIOT gig
@@ -652,24 +652,24 @@ function drawStreetPrint(x) {
     txt(x, 'LTR', 128, 131, 14, FD, I.navy, null, 0, 40);
     x.strokeStyle = I.coral; x.lineCap = 'round'; x.lineWidth = 11;
     for (const [a, b, c] of [[60, 230, -1], [196, 232, 1], [100, 236, -0.4], [156, 236, 0.4]]) { x.beginPath(); x.moveTo(a, 214); x.bezierCurveTo(a + c * 20, 238, b - c * 30, 250, b + c * 16, 226); x.stroke(); }
-    txt(x, 'LOW TIDE', w / 2, 272, 40, FD, I.cream, null, 0, w - 24);
+    txt(x, '로우 타이드', w / 2, 272, 40, FD, I.cream, null, 0, w - 24);
     txt(x, 'RIOT', w / 2 + 3, 317, 54, FD, '#1d2438', null, 0, w - 24);
     txt(x, 'RIOT', w / 2, 314, 54, FD, I.mustard, null, 0, w - 24);
-    txt(x, 'LIVE @ THE SHACK · FRI 9PM', w / 2, 350, 13, FT, I.pink, null, 0, w - 24);
-    txt(x, '+ THE BARNACLES · FREE', w / 2, 368, 11, FT, '#c9cfe0', null, 0, w - 24);
+    txt(x, '더 섁 라이브 · 금 밤 9시', w / 2, 350, 13, FT, I.pink, null, 0, w - 24);
+    txt(x, '+ 더 바나클스 · 무료', w / 2, 368, 11, FT, '#c9cfe0', null, 0, w - 24);
   });
   region(x, 'pst2', (x, w, h) => { // LOST SQUID with tear-off tabs
     paperBG(x, w, h, '#f7f5ef', 31, 0.05);
-    txt(x, 'LOST', w / 2, 44, 58, FD, I.red, null, 0, w - 30);
-    txt(x, 'SQUID', w / 2, 92, 36, FD, I.navy, null, 0, w - 30);
+    txt(x, '찾아요', w / 2, 44, 58, FD, I.red, null, 0, w - 30);
+    txt(x, '오징어', w / 2, 92, 36, FD, I.navy, null, 0, w - 30);
     x.save(); x.translate(128, 176); x.rotate(-0.035);
     x.fillStyle = '#fff'; x.fillRect(-78, -60, 156, 118); x.fillStyle = '#bfe0ee'; x.fillRect(-70, -52, 140, 96);
     x.fillStyle = '#9fd0e4'; x.fillRect(-70, 20, 140, 24);
     miniSquid(x, 0, -4, 40, I.teal);
     x.restore();
-    txt(x, 'HAVE YOU SEEN BLOOP?', w / 2, 256, 15, FT, I.navy, null, 0, w - 24);
-    txt(x, 'small · teal · loves fries', w / 2, 276, 12, (p) => FT(p, 600), I.grey, null, 0, w - 30);
-    txt(x, 'REWARD!', w / 2, 300, 22, FD, I.red, null, 0, w - 30);
+    txt(x, '블룹을 보셨나요?', w / 2, 256, 15, FT, I.navy, null, 0, w - 24);
+    txt(x, '작음 · 청록 · 감자튀김 좋아함', w / 2, 276, 12, (p) => FT(p, 600), I.grey, null, 0, w - 30);
+    txt(x, '사례금!', w / 2, 300, 22, FD, I.red, null, 0, w - 30);
     // tear-off tabs
     const tw = 256 / 7;
     for (let i = 0; i < 7; i++) {
@@ -686,12 +686,12 @@ function drawStreetPrint(x) {
     x.fillStyle = 'rgba(255,240,200,0.5)'; for (let i = 0; i < 14; i++) { x.save(); x.translate(128, 226); x.rotate(-PI + (i / 13) * PI); x.fillRect(0, -5, 200, 10); x.restore(); }
     x.fillStyle = I.mustard; x.beginPath(); x.arc(128, 226, 64, PI, TAU); x.fill();
     wavesBand(x, 222, w, 6, 64, I.teal, 0.4); wavesBand(x, 252, w, 7, 72, '#57b2a8', 1.9); wavesBand(x, 290, w, 6, 58, I.tealdk, 3.1);
-    txt(x, 'SPLASH', w / 2, 58, 50, FD, I.cream, I.navy, 10, w - 20);
-    txt(x, 'FEST', w / 2, 112, 58, FD, I.coral, I.navy, 10, w - 20);
-    txt(x, 'SUMMER MUSIC & INK', w / 2, 150, 13, FT, I.navy, null, 0, w - 30);
-    txt(x, 'JULY 12–14', w / 2, 276, 30, FD, I.cream, null, 0, w - 30);
-    txt(x, 'LOW TIDE RIOT · DJ KELPY · THE BARNACLES', w / 2, 318, 10, FT, '#e9f6f3', null, 0, w - 24);
-    txt(x, 'TIDEWATER PLAZA', w / 2, 344, 14, FT, I.mustard, null, 0, w - 30);
+    txt(x, '스플래시', w / 2, 58, 50, FD, I.cream, I.navy, 10, w - 20);
+    txt(x, '페스트', w / 2, 112, 58, FD, I.coral, I.navy, 10, w - 20);
+    txt(x, '여름 음악 & 잉크', w / 2, 150, 13, FT, I.navy, null, 0, w - 30);
+    txt(x, '7월 12–14일', w / 2, 276, 30, FD, I.cream, null, 0, w - 30);
+    txt(x, '로우 타이드 라이엇 · DJ 켈피 · 더 바나클스', w / 2, 318, 10, FT, '#e9f6f3', null, 0, w - 24);
+    txt(x, '타이드워터 광장', w / 2, 344, 14, FT, I.mustard, null, 0, w - 30);
     paperBG(x, 0, 0, 'rgba(0,0,0,0)', 1); vignette(x, w, h, 0.2);
   });
   region(x, 'pst4', (x, w, h) => { // SURF SCHOOL
@@ -702,11 +702,11 @@ function drawStreetPrint(x) {
     x.fillStyle = I.coral; x.fillRect(-150, -8, 300, 16); x.fillStyle = I.mustard; x.fillRect(-150, -2, 300, 4);
     x.fillStyle = I.navy; x.beginPath(); x.moveTo(-120, 30); x.lineTo(-100, 58); x.lineTo(-88, 30); x.fill();
     x.restore();
-    txt(x, 'SURF', 84, 54, 56, FD, I.cream, I.tealdk, 8, 150);
-    txt(x, 'SCHOOL', 90, 102, 34, FD, I.mustard, I.tealdk, 7, 170);
+    txt(x, '서핑', 84, 54, 56, FD, I.cream, I.tealdk, 8, 150);
+    txt(x, '스쿨', 90, 102, 34, FD, I.mustard, I.tealdk, 7, 170);
     x.fillStyle = I.navy; x.fillRect(0, 312, w, 72);
-    txt(x, 'LEARN TO RIDE THE SWELL', w / 2, 334, 14, FT, I.cream, null, 0, w - 24);
-    txt(x, 'LESSONS DAILY · 7AM · PIER 1', w / 2, 358, 11, FT, I.mint, null, 0, w - 24);
+    txt(x, '파도 타기를 배워요', w / 2, 334, 14, FT, I.cream, null, 0, w - 24);
+    txt(x, '매일 강습 · 아침 7시 · 1번 부두', w / 2, 358, 11, FT, I.mint, null, 0, w - 24);
     vignette(x, w, h, 0.18);
   });
   region(x, 'pst5', (x, w, h) => { // SEA SALT FRIES 2 FOR 1
@@ -720,11 +720,11 @@ function drawStreetPrint(x) {
     x.fillStyle = '#fff'; for (let i = 0; i < 18; i++) { x.fillRect(-50 + (i * 37) % 100, -100 + (i * 23) % 60, 3, 3); }
     x.restore();
     starburst(x, 204, 118, 44, 32, 14, I.coraldk, 0.1);
-    txt(x, '2 FOR 1', 204, 118, 20, FD, I.cream, null, 0, 70);
-    txt(x, 'SEA SALT', w / 2, 40, 36, FD, I.navy, null, 0, w - 24);
-    txt(x, 'FRIES', 104, 88, 48, FD, I.coral, I.cream, 8, 170);
+    txt(x, '1+1', 204, 118, 20, FD, I.cream, null, 0, 70);
+    txt(x, '바다 소금', w / 2, 40, 36, FD, I.navy, null, 0, w - 24);
+    txt(x, '감자튀김', 104, 88, 48, FD, I.coral, I.cream, 8, 170);
     x.fillStyle = I.navy; x.fillRect(0, h - 38, w, 38);
-    txt(x, 'TIDE SNACKS · KIOSK', w / 2, h - 19, 14, FT, I.mustard, null, 0, w - 24);
+    txt(x, '타이드 스낵 · 키오스크', w / 2, h - 19, 14, FT, I.mustard, null, 0, w - 24);
   });
   region(x, 'pst6', (x, w, h) => { // SKATE JAM
     paperBG(x, w, h, '#b3a8e3', 61, 0.06);
@@ -735,10 +735,10 @@ function drawStreetPrint(x) {
     x.fillStyle = I.mustard; for (const [wx, wy] of [[-70, 34], [-40, 34], [40, 34], [70, 34]]) { x.beginPath(); x.arc(wx, wy, 11, 0, TAU); x.fill(); }
     x.restore();
     x.strokeStyle = I.cream; x.lineWidth = 5; x.lineCap = 'round'; for (let i = 0; i < 4; i++) { x.beginPath(); x.moveTo(12 + i * 6, 150 + i * 16); x.lineTo(40 + i * 6, 150 + i * 16); x.stroke(); }
-    txt(x, 'SKATE', w / 2, 52, 52, FD, I.cream, I.navy, 10, w - 20);
-    txt(x, 'JAM', w / 2, 114, 70, FD, I.mustard, I.navy, 10, w - 20);
-    txt(x, 'BEST TRICK CONTEST', w / 2, 276, 15, FT, I.navy, null, 0, w - 24);
-    txt(x, 'SUN 3PM · SQUIDKID SKATE', w / 2, 298, 12, FT, '#5a4f93', null, 0, w - 24);
+    txt(x, '스케이트', w / 2, 52, 52, FD, I.cream, I.navy, 10, w - 20);
+    txt(x, '잼', w / 2, 114, 70, FD, I.mustard, I.navy, 10, w - 20);
+    txt(x, '베스트 트릭 대회', w / 2, 276, 15, FT, I.navy, null, 0, w - 24);
+    txt(x, '일 오후 3시 · 오징어키즈 스케이트', w / 2, 298, 12, FT, '#5a4f93', null, 0, w - 24);
     vignette(x, w, h, 0.14);
   });
   region(x, 'pst7', (x, w, h) => { // SQUID RADIO 88.2
@@ -750,9 +750,9 @@ function drawStreetPrint(x) {
     txt(x, '88.2', w / 2 + 4, 262, 72, FD, '#8c3f31', null, 0, w - 20);
     txt(x, '88.2', w / 2, 258, 72, FD, I.cream, null, 0, w - 20);
     txt(x, 'FM', 220, 222, 22, FD, I.navy, null, 0, 60);
-    txt(x, 'SQUID RADIO', w / 2, 44, 32, FD, I.navy, null, 0, w - 24);
-    txt(x, 'NONSTOP INK HITS', w / 2, 316, 14, FT, I.navy, null, 0, w - 24);
-    txt(x, 'ALL DAY · ALL SPLAT', w / 2, 340, 11, FT, I.cream, null, 0, w - 24);
+    txt(x, '오징어 라디오', w / 2, 44, 32, FD, I.navy, null, 0, w - 24);
+    txt(x, '논스톱 잉크 히트곡', w / 2, 316, 14, FT, I.navy, null, 0, w - 24);
+    txt(x, '온종일 · 올 스플랫', w / 2, 340, 11, FT, I.cream, null, 0, w - 24);
     vignette(x, w, h);
   });
   region(x, 'pst8', (x, w, h) => { // KRAKEN LINES cruises
@@ -765,37 +765,37 @@ function drawStreetPrint(x) {
     x.strokeStyle = I.mustard; x.lineWidth = 12; x.lineCap = 'round';
     x.beginPath(); x.moveTo(30, 300); x.bezierCurveTo(24, 240, 70, 230, 52, 196); x.stroke(); x.beginPath(); x.arc(52, 188, 8, 0, TAU); x.stroke();
     wavesBand(x, 258, w, 7, 50, I.teal, 0.3); wavesBand(x, 282, w, 6, 44, I.tealdk, 2.1);
-    txt(x, 'KRAKEN LINES', w / 2, 36, 32, FD, I.cream, null, 0, w - 24);
-    txt(x, 'SAIL THE SEVEN REEFS', w / 2, 118, 16, FT, I.mustard, null, 0, w - 24);
-    txt(x, 'DAILY FERRIES · PIER 1', w / 2, 336, 13, FT, I.cream, null, 0, w - 24);
-    txt(x, 'kids ride free', w / 2, 358, 11, (p) => FT(p, 600), '#bcd6e8', null, 0, w - 24);
+    txt(x, '크라켄 해운', w / 2, 36, 32, FD, I.cream, null, 0, w - 24);
+    txt(x, '일곱 산호초를 항해해요', w / 2, 118, 16, FT, I.mustard, null, 0, w - 24);
+    txt(x, '매일 페리 · 1번 부두', w / 2, 336, 13, FT, I.cream, null, 0, w - 24);
+    txt(x, '어린이 무료', w / 2, 358, 11, (p) => FT(p, 600), '#bcd6e8', null, 0, w - 24);
   });
   region(x, 'pst9', (x, w, h) => { // municipal NO SWIMMING notice
     paperBG(x, w, h, '#fbfaf6', 91, 0.04, false);
     x.strokeStyle = I.red; x.lineWidth = 8; x.strokeRect(8, 8, w - 16, h - 16);
-    x.fillStyle = I.red; x.fillRect(8, 8, w - 16, 58); txt(x, 'NOTICE', w / 2, 38, 34, FD, '#fff', null, 0, w - 40);
+    x.fillStyle = I.red; x.fillRect(8, 8, w - 16, 58); txt(x, '공지', w / 2, 38, 34, FD, '#fff', null, 0, w - 40);
     x.save(); x.translate(128, 142);
     x.fillStyle = I.red; x.beginPath(); x.arc(0, 0, 56, 0, TAU); x.fill(); x.fillStyle = '#fff'; x.beginPath(); x.arc(0, 0, 45, 0, TAU); x.fill();
     x.fillStyle = I.navy; x.beginPath(); x.ellipse(-4, 4, 26, 12, -0.2, 0, TAU); x.fill(); x.beginPath(); x.arc(22, -6, 9, 0, TAU); x.fill();
     x.strokeStyle = I.sky; x.lineWidth = 4; for (let i = 0; i < 2; i++) { x.beginPath(); for (let t = -40; t <= 40; t += 4) x.lineTo(t, 24 + i * 9 + Math.sin(t * 0.25) * 3); x.stroke(); }
     x.rotate(-PI / 4); x.fillStyle = I.red; x.fillRect(-48, -5, 96, 10);
     x.restore();
-    txt(x, 'NO SWIMMING', w / 2, 228, 26, FT, I.navy, null, 0, w - 36);
-    txt(x, 'IN THE HARBOR DOCK', w / 2, 254, 14, FT, I.navy, null, 0, w - 36);
+    txt(x, '수영 금지', w / 2, 228, 26, FT, I.navy, null, 0, w - 36);
+    txt(x, '항구 부두 구역', w / 2, 254, 14, FT, I.navy, null, 0, w - 36);
     lines(x, 30, 276, w - 60, 5, 12, '#b9bcc4', 92);
-    txt(x, 'HARBOR AUTHORITY · BYLAW 14', w / 2, 352, 10, FT, I.grey, null, 0, w - 36);
+    txt(x, '항만청 · 조례 14조', w / 2, 352, 10, FT, I.grey, null, 0, w - 36);
   });
   region(x, 'pst10', (x, w, h) => { // HARBOR MARKET SUNDAYS (kraft)
     paperBG(x, w, h, I.kraft, 101, 0.1);
-    txt(x, 'HARBOR', w / 2, 46, 44, FD, I.navy, null, 0, w - 24);
-    txt(x, 'MARKET', w / 2, 96, 48, FD, I.coraldk, null, 0, w - 24);
-    x.save(); x.translate(200, 150); x.rotate(0.3); x.strokeStyle = I.red; x.lineWidth = 4; x.beginPath(); x.arc(0, 0, 34, 0, TAU); x.stroke(); x.beginPath(); x.arc(0, 0, 28, 0, TAU); x.stroke(); txt(x, 'SUNDAYS', 0, 1, 12, FT, I.red, null, 0, 52); x.restore();
+    txt(x, '항구', w / 2, 46, 44, FD, I.navy, null, 0, w - 24);
+    txt(x, '시장', w / 2, 96, 48, FD, I.coraldk, null, 0, w - 24);
+    x.save(); x.translate(200, 150); x.rotate(0.3); x.strokeStyle = I.red; x.lineWidth = 4; x.beginPath(); x.arc(0, 0, 34, 0, TAU); x.stroke(); x.beginPath(); x.arc(0, 0, 28, 0, TAU); x.stroke(); txt(x, '일요일', 0, 1, 12, FT, I.red, null, 0, 52); x.restore();
     x.lineWidth = 5; x.lineCap = 'round'; x.lineJoin = 'round';
     x.strokeStyle = I.tealdk; x.beginPath(); x.ellipse(70, 170, 38, 18, 0, 0, TAU); x.stroke(); x.beginPath(); x.moveTo(106, 170); x.lineTo(126, 154); x.lineTo(126, 186); x.closePath(); x.stroke(); x.beginPath(); x.arc(52, 166, 3, 0, TAU); x.stroke();
     x.strokeStyle = '#b8902c'; x.beginPath(); x.ellipse(84, 246, 28, 22, 0.3, 0, TAU); x.stroke(); x.beginPath(); x.moveTo(104, 230); x.lineTo(112, 222); x.stroke();
     x.strokeStyle = I.coraldk; x.beginPath(); x.ellipse(176, 244, 30, 20, 0, 0, TAU); x.stroke(); for (const s of [-1, 1]) { x.beginPath(); x.moveTo(176 + s * 26, 232); x.quadraticCurveTo(176 + s * 44, 210, 176 + s * 30, 204); x.stroke(); }
-    txt(x, 'FRESH · LOCAL · SALTY', w / 2, 300, 14, FT, I.navy, null, 0, w - 24);
-    txt(x, '8AM – 2PM · PIER 2', w / 2, 324, 12, FT, '#6a5236', null, 0, w - 24);
+    txt(x, '신선 · 지역산 · 짭조름', w / 2, 300, 14, FT, I.navy, null, 0, w - 24);
+    txt(x, '오전 8시 – 오후 2시 · 2번 부두', w / 2, 324, 12, FT, '#6a5236', null, 0, w - 24);
     vignette(x, w, h, 0.22);
   });
   region(x, 'pst11', (x, w, h) => { // BARNACLE BREW cold brew
@@ -809,9 +809,9 @@ function drawStreetPrint(x) {
     x.fillStyle = I.cream; x.fillRect(-56, -90, 112, 12);
     x.fillStyle = I.coral; x.save(); x.rotate(0.18); x.fillRect(8, -170, 10, 100); x.restore();
     x.restore();
-    starburst(x, 62, 96, 34, 25, 12, I.coral, 0.2); txt(x, 'NEW!', 62, 96, 16, FD, I.cream, null, 0, 52);
-    txt(x, 'COLD BREW', w / 2, 44, 40, FD, I.cream, null, 0, w - 24);
-    txt(x, 'BARNACLE BREW', w / 2, 330, 18, FD, I.mustard, null, 0, w - 24);
+    starburst(x, 62, 96, 34, 25, 12, I.coral, 0.2); txt(x, '신상!', 62, 96, 16, FD, I.cream, null, 0, 52);
+    txt(x, '콜드 브루', w / 2, 44, 40, FD, I.cream, null, 0, w - 24);
+    txt(x, '바나클 브루', w / 2, 330, 18, FD, I.mustard, null, 0, w - 24);
     txt(x, 'SLOW STEEPED · SEA SALT CARAMEL', w / 2, 356, 10, FT, '#cdebe6', null, 0, w - 24);
   });
   region(x, 'pw0', (x, w, h) => { // wide: INK THE TOWN (season 3)
@@ -897,16 +897,16 @@ function drawStreetPrint(x) {
     });
   });
   region(x, 'ice', (x, w, h) => { x.fillStyle = '#e9f5fb'; x.fillRect(0, 0, w, h); x.fillStyle = I.sky; x.fillRect(0, h - 30, w, 30); txt(x, 'ICE', w / 2, 52, 60, FD, '#3d7fb0', '#fff', 8, w - 12); txt(x, 'BAGGED · 5 KG', w / 2, h - 15, 11, FT, '#fff', null, 0, w - 12); x.strokeStyle = '#8cc6e2'; x.lineWidth = 3; for (let i = 0; i < 6; i++) { x.beginPath(); x.moveTo(22, 20); x.lineTo(22 + Math.cos(i * PI / 3) * 12, 20 + Math.sin(i * PI / 3) * 12); x.stroke(); } });
-  region(x, 'mail', (x, w, h) => { x.fillStyle = I.coraldk; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.beginPath(); x.roundRect(14, 36, w - 28, 56, 8); x.fill(); txt(x, 'POST', w / 2, 20, 22, FD, '#fff', null, 0, w - 16); txt(x, 'LAST PICKUP', w / 2, 52, 11, FT, I.navy, null, 0, w - 30); txt(x, '5:30 PM', w / 2, 74, 18, FT, I.coraldk, null, 0, w - 30); txt(x, 'HARBOR MAIL', w / 2, 110, 11, FT, '#fbe3dc', null, 0, w - 16); });
-  region(x, 'cab', (x, w, h) => { x.fillStyle = '#e8e4d8'; x.fillRect(0, 0, w, h); x.fillStyle = I.navy; x.fillRect(0, 0, 110, h); x.fillStyle = I.mustard; x.beginPath(); x.moveTo(64, 18); x.lineTo(36, 70); x.lineTo(56, 70); x.lineTo(44, 112); x.lineTo(78, 54); x.lineTo(58, 54); x.lineTo(72, 18); x.closePath(); x.fill(); txt(x, 'HARBOR POWER', 244, 50, 34, FD, I.navy, null, 0, 250); txt(x, 'SUBSTATION 7 · AUTHORISED ONLY', 244, 90, 13, FT, '#6b6f7a', null, 0, 250); });
+  region(x, 'mail', (x, w, h) => { x.fillStyle = I.coraldk; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.beginPath(); x.roundRect(14, 36, w - 28, 56, 8); x.fill(); txt(x, '우편', w / 2, 20, 22, FD, '#fff', null, 0, w - 16); txt(x, '수거 마감', w / 2, 52, 11, FT, I.navy, null, 0, w - 30); txt(x, '오후 5:30', w / 2, 74, 18, FT, I.coraldk, null, 0, w - 30); txt(x, '항구 우편', w / 2, 110, 11, FT, '#fbe3dc', null, 0, w - 16); });
+  region(x, 'cab', (x, w, h) => { x.fillStyle = '#e8e4d8'; x.fillRect(0, 0, w, h); x.fillStyle = I.navy; x.fillRect(0, 0, 110, h); x.fillStyle = I.mustard; x.beginPath(); x.moveTo(64, 18); x.lineTo(36, 70); x.lineTo(56, 70); x.lineTo(44, 112); x.lineTo(78, 54); x.lineTo(58, 54); x.lineTo(72, 18); x.closePath(); x.fill(); txt(x, '항구 전력', 244, 50, 34, FD, I.navy, null, 0, 250); txt(x, '변전소 7 · 관계자 외 출입 금지', 244, 90, 13, FT, '#6b6f7a', null, 0, 250); });
   const diamond = (name, bg, fg, label, num, icon) => region(x, name, (x, w, h) => {
     x.clearRect(0, 0, w, h); x.save(); x.translate(w / 2, h / 2); x.rotate(PI / 4);
     x.fillStyle = '#fff'; x.fillRect(-44, -44, 88, 88); x.fillStyle = bg; x.fillRect(-40, -40, 80, 80); x.strokeStyle = fg; x.lineWidth = 2; x.strokeRect(-36, -36, 72, 72); x.restore();
     icon(x, w / 2, h / 2 - 22); txt(x, label, w / 2, h / 2 + 10, 11, FT, fg, null, 0, 70); txt(x, num, w / 2, h / 2 + 34, 16, FD, fg, null, 0, 30);
   });
-  diamond('dia0', I.red, '#fff', 'FLAMMABLE', '2', (x, cx, cy) => { x.fillStyle = '#fff'; x.beginPath(); x.moveTo(cx, cy - 18); x.quadraticCurveTo(cx + 16, cy, cx + 8, cy + 12); x.quadraticCurveTo(cx, cy + 16, cx - 8, cy + 12); x.quadraticCurveTo(cx - 14, cy, cx, cy - 18); x.fill(); });
-  diamond('dia1', '#4e9a64', '#fff', 'COMPRESSED', '2', (x, cx, cy) => { x.fillStyle = '#fff'; x.beginPath(); x.roundRect(cx - 7, cy - 16, 14, 32, 6); x.fill(); x.fillRect(cx - 3, cy - 21, 6, 6); });
-  diamond('dia2', I.mustard, I.ink, 'OXIDIZER', '5.1', (x, cx, cy) => { x.strokeStyle = I.ink; x.lineWidth = 3; x.beginPath(); x.arc(cx, cy + 6, 8, 0, TAU); x.stroke(); x.fillStyle = I.ink; x.beginPath(); x.moveTo(cx, cy - 18); x.quadraticCurveTo(cx + 10, cy - 4, cx, cy + 2); x.quadraticCurveTo(cx - 10, cy - 4, cx, cy - 18); x.fill(); });
+  diamond('dia0', I.red, '#fff', '인화성', '2', (x, cx, cy) => { x.fillStyle = '#fff'; x.beginPath(); x.moveTo(cx, cy - 18); x.quadraticCurveTo(cx + 16, cy, cx + 8, cy + 12); x.quadraticCurveTo(cx, cy + 16, cx - 8, cy + 12); x.quadraticCurveTo(cx - 14, cy, cx, cy - 18); x.fill(); });
+  diamond('dia1', '#4e9a64', '#fff', '압축가스', '2', (x, cx, cy) => { x.fillStyle = '#fff'; x.beginPath(); x.roundRect(cx - 7, cy - 16, 14, 32, 6); x.fill(); x.fillRect(cx - 3, cy - 21, 6, 6); });
+  diamond('dia2', I.mustard, I.ink, '산화제', '5.1', (x, cx, cy) => { x.strokeStyle = I.ink; x.lineWidth = 3; x.beginPath(); x.arc(cx, cy + 6, 8, 0, TAU); x.stroke(); x.fillStyle = I.ink; x.beginPath(); x.moveTo(cx, cy - 18); x.quadraticCurveTo(cx + 10, cy - 4, cx, cy + 2); x.quadraticCurveTo(cx - 10, cy - 4, cx, cy - 18); x.fill(); });
   // newspapers + scooter QR
   const paperFront = (name, mast, head, col, seed) => region(x, name, (x, w, h) => {
     paperBG(x, w, h, '#f1efe8', seed, 0.04, false);
@@ -917,15 +917,15 @@ function drawStreetPrint(x) {
     x.fillStyle = 'rgba(255,255,255,0.5)'; x.beginPath(); x.arc(37, 76, 12, 0, TAU); x.fill();
     lines(x, 72, 56, 48, 6, 7, '#9a9ca2', seed + 1); lines(x, 8, 104, w - 16, 3, 7, '#9a9ca2', seed + 2);
   });
-  paperFront('news0', 'HARBOR DAILY', 'TURF RECORD!', I.coral, 171);
-  paperFront('news1', 'INK WEEKLY', 'NEW SEASON', I.teal, 181);
+  paperFront('news0', '항구 데일리', '터프 신기록!', I.coral, 171);
+  paperFront('news1', '잉크 위클리', '새 시즌', I.teal, 181);
   region(x, 'qr', (x, w, h) => {
     x.fillStyle = '#fff'; x.beginPath(); x.roundRect(0, 0, w, h, 14); x.fill();
-    x.fillStyle = I.tealdk; x.fillRect(0, 0, w, 30); txt(x, 'RIDE ME', w / 2, 15, 16, FD, '#fff', null, 0, w - 10);
+    x.fillStyle = I.tealdk; x.fillRect(0, 0, w, 30); txt(x, '타고 가요', w / 2, 15, 16, FD, '#fff', null, 0, w - 10);
     const rnd = mulberry32(191); x.fillStyle = I.ink;
     for (let j = 0; j < 9; j++) for (let i = 0; i < 9; i++) if (rnd() < 0.5) x.fillRect(28 + i * 8, 38 + j * 8, 8, 8);
     for (const [qx, qy] of [[28, 38], [76, 38], [28, 86]]) { x.fillStyle = I.ink; x.fillRect(qx, qy, 24, 24); x.fillStyle = '#fff'; x.fillRect(qx + 4, qy + 4, 16, 16); x.fillStyle = I.ink; x.fillRect(qx + 8, qy + 8, 8, 8); }
-    txt(x, 'KELPWHEEL', w / 2, h - 12, 11, FT, I.tealdk, null, 0, w - 10);
+    txt(x, '켈프휠', w / 2, h - 12, 11, FT, I.tealdk, null, 0, w - 10);
   });
   // ---------------------------------------------------------------- floor castings, gauge, scuffs
   region(x, 'manhole', (x, w, h) => {
@@ -940,7 +940,7 @@ function drawStreetPrint(x) {
     x.fillStyle = '#b4b4b4'; x.beginPath(); x.arc(c, c, 40, 0, TAU); x.fill();
     miniSquid(x, c, c + 2, 30, '#e2e2e2', '#8a8a8a', '#e2e2e2');
     x.font = FT(15); x.fillStyle = '#e8e8e8'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    const s = 'INKWAVE HARBOR · SEWER · INKWAVE HARBOR · SEWER · ';
+    const s = '잉크웨이브 하버 · 하수도 · 잉크웨이브 하버 · 하수도 · ';
     for (let i = 0; i < s.length; i++) { const a = (i / s.length) * TAU - HP; x.save(); x.translate(c + Math.cos(a) * 95, c + Math.sin(a) * 95); x.rotate(a + HP); x.fillText(s[i], 0, 0); x.restore(); }
   });
   region(x, 'gully', (x, w, h) => { x.clearRect(0, 0, w, h); x.fillStyle = '#fff'; x.fillRect(0, 0, w, 10); x.fillRect(0, h - 10, w, 10); x.fillRect(0, 0, 10, h); x.fillRect(w - 10, 0, 10, h); for (let i = 1; i < 8; i++) x.fillRect(i * 16 - 3, 0, 6, h); x.fillRect(0, h / 2 - 4, w, 8); });
@@ -977,10 +977,10 @@ function drawStreetPrint(x) {
   region(x, 'sg0', (x, w, h) => { const sl = roundSign(x, w, h, I.red, '#fff', true); x.fillStyle = I.navy; x.beginPath(); x.ellipse(w / 2 - 6, h / 2 + 2, 26, 12, -0.25, 0, TAU); x.fill(); x.beginPath(); x.arc(w / 2 + 22, h / 2 - 10, 9, 0, TAU); x.fill(); x.strokeStyle = I.sky; x.lineWidth = 4; x.beginPath(); for (let t = -32; t <= 32; t += 4) x.lineTo(w / 2 + t, h / 2 + 26 + Math.sin(t * 0.3) * 3); x.stroke(); sl(); });
   region(x, 'sg1', (x, w, h) => { triSign(x, w, h, '#f1c95c', I.ink); x.fillStyle = I.ink; x.beginPath(); x.arc(58, 60, 7, 0, TAU); x.fill(); x.lineWidth = 6; x.lineCap = 'round'; x.strokeStyle = I.ink; x.beginPath(); x.moveTo(60, 68); x.lineTo(72, 84); x.lineTo(86, 80); x.moveTo(72, 84); x.lineTo(62, 96); x.moveTo(60, 72); x.lineTo(46, 76); x.stroke(); x.fillStyle = I.teal; x.beginPath(); x.ellipse(64, 102, 22, 5, 0, 0, TAU); x.fill(); });
   region(x, 'sg2', (x, w, h) => { triSign(x, w, h, '#f1c95c', I.ink); x.fillStyle = I.ink; x.beginPath(); x.moveTo(70, 42); x.lineTo(52, 78); x.lineTo(64, 78); x.lineTo(56, 104); x.lineTo(78, 68); x.lineTo(66, 68); x.lineTo(76, 42); x.closePath(); x.fill(); });
-  region(x, 'sg3', (x, w, h) => { x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.fillStyle = I.red; x.fillRect(0, 0, w, 44); x.fillStyle = '#fff'; x.beginPath(); x.ellipse(w / 2, 22, 52, 15, 0, 0, TAU); x.fill(); txt(x, 'DANGER', w / 2, 23, 20, FD, I.red, null, 0, 96); txt(x, 'DEEP', w / 2, 70, 26, FD, I.ink, null, 0, 110); txt(x, 'WATER', w / 2, 102, 24, FD, I.ink, null, 0, 110); x.strokeStyle = I.ink; x.lineWidth = 4; x.strokeRect(2, 2, w - 4, h - 4); });
-  region(x, 'sg4', (x, w, h) => { x.fillStyle = '#fff'; x.beginPath(); x.roundRect(0, 0, w, h, 12); x.fill(); x.fillStyle = '#3f6fb0'; x.beginPath(); x.roundRect(6, 6, w - 12, h - 12, 9); x.fill(); txt(x, 'P', w / 2, 52, 68, FD, '#fff', null, 0, 90); txt(x, '2 HR', w / 2, 104, 20, FT, '#fff', null, 0, 100); });
+  region(x, 'sg3', (x, w, h) => { x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.fillStyle = I.red; x.fillRect(0, 0, w, 44); x.fillStyle = '#fff'; x.beginPath(); x.ellipse(w / 2, 22, 52, 15, 0, 0, TAU); x.fill(); txt(x, '위험', w / 2, 23, 20, FD, I.red, null, 0, 96); txt(x, '수심', w / 2, 70, 26, FD, I.ink, null, 0, 110); txt(x, '주의', w / 2, 102, 24, FD, I.ink, null, 0, 110); x.strokeStyle = I.ink; x.lineWidth = 4; x.strokeRect(2, 2, w - 4, h - 4); });
+  region(x, 'sg4', (x, w, h) => { x.fillStyle = '#fff'; x.beginPath(); x.roundRect(0, 0, w, h, 12); x.fill(); x.fillStyle = '#3f6fb0'; x.beginPath(); x.roundRect(6, 6, w - 12, h - 12, 9); x.fill(); txt(x, 'P', w / 2, 52, 68, FD, '#fff', null, 0, 90); txt(x, '2시간', w / 2, 104, 20, FT, '#fff', null, 0, 100); });
   region(x, 'sg5', (x, w, h) => { roundSign(x, w, h, I.red, I.red, false); x.fillStyle = '#fff'; x.fillRect(22, h / 2 - 12, w - 44, 24); });
-  region(x, 'sg6', (x, w, h) => { x.clearRect(0, 0, w, h); x.save(); x.translate(w / 2, h / 2); x.rotate(PI / 4); x.fillStyle = I.ink; x.fillRect(-44, -44, 88, 88); x.fillStyle = '#f1c95c'; x.fillRect(-39, -39, 78, 78); x.restore(); x.fillStyle = I.teal; splatShape(x, w / 2, h / 2 - 8, 16, 21, 2); txt(x, 'WET INK', w / 2, h / 2 + 30, 12, FT, I.ink, null, 0, 70); });
+  region(x, 'sg6', (x, w, h) => { x.clearRect(0, 0, w, h); x.save(); x.translate(w / 2, h / 2); x.rotate(PI / 4); x.fillStyle = I.ink; x.fillRect(-44, -44, 88, 88); x.fillStyle = '#f1c95c'; x.fillRect(-39, -39, 78, 78); x.restore(); x.fillStyle = I.teal; splatShape(x, w / 2, h / 2 - 8, 16, 21, 2); txt(x, '잉크 주의', w / 2, h / 2 + 30, 12, FT, I.ink, null, 0, 70); });
   region(x, 'sg7', (x, w, h) => { triSign(x, w, h, '#fff', I.red); x.fillStyle = I.ink; x.beginPath(); x.moveTo(64, 38); x.lineTo(56, 50); x.lineTo(72, 50); x.fill(); x.beginPath(); x.moveTo(64, 100); x.lineTo(56, 88); x.lineTo(72, 88); x.fill(); txt(x, '2.0 m', 64, 70, 20, FT, I.ink, null, 0, 70); });
   // fingerpost blades (alpha pointed ends)
   const blade = (i, text, right, bg, fg) => region(x, 'bl' + i, (x, w, h) => {
@@ -990,18 +990,18 @@ function drawStreetPrint(x) {
     x.closePath(); x.fill(); x.strokeStyle = fg; x.lineWidth = 3; x.stroke();
     txt(x, text, right ? (w - 30) / 2 + 4 : (w + 30) / 2 - 4, h / 2 + 2, 30, FD, fg, null, 0, w - 60);
   });
-  blade(0, 'PIER 3', false, I.cream, I.navy); blade(1, 'FERRY', true, I.cream, I.navy); blade(2, 'SKATE PARK', true, I.teal, I.cream); blade(3, 'BEACH', false, I.mustard, I.navy);
-  blade(4, 'MARKET', true, I.coral, I.cream); blade(5, 'TERMINAL B', false, I.navy, I.cream); blade(6, 'LIGHTHOUSE', true, I.cream, I.navy); blade(7, 'KELP ISLE', false, I.teal, I.cream);
+  blade(0, '3번 부두', false, I.cream, I.navy); blade(1, '페리', true, I.cream, I.navy); blade(2, '스케이트 파크', true, I.teal, I.cream); blade(3, '해변', false, I.mustard, I.navy);
+  blade(4, '시장', true, I.coral, I.cream); blade(5, '터미널 B', false, I.navy, I.cream); blade(6, '등대', true, I.cream, I.navy); blade(7, '켈프 섬', false, I.teal, I.cream);
   // small labels (128×32)
   const lbl = (i, text, bg, fg, stripes) => region(x, 'lb' + i, (x, w, h) => {
     x.fillStyle = bg; x.fillRect(0, 0, w, h);
     if (stripes) { x.fillStyle = fg; for (let k = -2; k < 20; k++) { x.beginPath(); x.moveTo(k * 12, h); x.lineTo(k * 12 + 6, h); x.lineTo(k * 12 + 6 + h, 0); x.lineTo(k * 12 + h, 0); x.fill(); } x.fillStyle = bg; x.fillRect(12, 4, w - 24, h - 8); }
     txt(x, text, w / 2, h / 2 + 1, 16, FT, fg, null, 0, w - 26);
   });
-  lbl(0, 'DANGER 400V', '#f1c95c', I.ink, true); lbl(1, 'POTABLE WATER', '#3f6fb0', '#fff'); lbl(2, 'PROPANE', I.red, '#fff'); lbl(3, 'FIRE HOSE', I.red, '#fff');
-  lbl(4, 'NO SMOKING', '#fff', I.red); lbl(5, 'SQD · 042', '#fbfaf4', I.navy); lbl(6, 'KEEP CLEAR', '#f1c95c', I.ink, true); lbl(7, 'CLEARANCE 2.0 M', '#fff', I.ink);
-  lbl(8, 'KRKU 882130', '#fff', I.ink); lbl(9, 'SERVICE 24H', I.navy, I.cream); lbl(10, 'FIRE INLET', I.red, '#fff'); lbl(11, 'BAIT · ICE · TACKLE', I.teal, I.cream);
-  lbl(12, 'MIND THE GAP', '#f1c95c', I.ink, true); lbl(13, 'MOORING 12', '#fff', I.navy); lbl(14, 'NO PARKING', '#fff', I.red); lbl(15, 'WASH DOWN', '#3f6fb0', '#fff');
+  lbl(0, '위험 400V', '#f1c95c', I.ink, true); lbl(1, '음용수', '#3f6fb0', '#fff'); lbl(2, '프로판', I.red, '#fff'); lbl(3, '소화 호스', I.red, '#fff');
+  lbl(4, '금연', '#fff', I.red); lbl(5, 'SQD · 042', '#fbfaf4', I.navy); lbl(6, '비워 두세요', '#f1c95c', I.ink, true); lbl(7, '높이 제한 2.0 M', '#fff', I.ink);
+  lbl(8, 'KRKU 882130', '#fff', I.ink); lbl(9, '24시간 영업', I.navy, I.cream); lbl(10, '소화전', I.red, '#fff'); lbl(11, '미끼 · 얼음 · 낚시용품', I.teal, I.cream);
+  lbl(12, '발빠짐 주의', '#f1c95c', I.ink, true); lbl(13, '계류 12', '#fff', I.navy); lbl(14, '주차 금지', '#fff', I.red); lbl(15, '세척 구역', '#3f6fb0', '#fff');
 }
 
 function canvasTex(w, h, draw, repeat = false) {

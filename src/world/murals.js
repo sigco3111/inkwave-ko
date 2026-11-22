@@ -18,12 +18,12 @@ const CSIDE = { x: 0, y: 1696, w: 1248, h: 240, m: [13, 2.5] };         // ferry
 const CEND = { x: 1264, y: 1696, w: 557, h: 240, m: [5.8, 2.5] };      // ferry-cabin ±X faces: 5.8 x 2.5 m
 
 export async function createMuralTexture() {
-  try { await Promise.all([document.fonts.load('120px "Titan One"'), document.fonts.load('800 100px Rubik')]); } catch { /* fallback font */ }
+  try { await Promise.all([document.fonts.load('120px "Titan One"'), document.fonts.load('800 100px Rubik'), document.fonts.load('900 100px "Noto Sans KR"')]); } catch { /* fallback font */ }
   const c = document.createElement('canvas');
   c.width = W; c.height = H;
   const g = c.getContext('2d');
   g.clearRect(0, 0, W, H);
-  const font = (px) => `${px}px "Titan One", "Arial Black", sans-serif`;
+  const font = (px) => `${px}px "Titan One", "Noto Sans KR", "Arial Black", sans-serif`;
   drawBanner(g, 0, font);
   drawChevrons(g, RH, font);
   drawShop(g, RH * 2, font);
@@ -88,7 +88,7 @@ function drawBanner(g, y0, font) {
     g.lineWidth = 22; g.strokeStyle = CREAM; g.strokeText('INKWAVE', ox + 300, 186);
     g.fillStyle = NAVY; g.fillText('INKWAVE', ox + 300, 186);
     g.fillStyle = CORAL; g.fillText('INKWAVE', ox + 294, 180);
-    g.font = font(34); g.fillStyle = CREAM; g.fillText('TURF RIOT  •  TIDEWATER PLAZA', ox + 320, 205 + 2);
+    g.font = font(34); g.fillStyle = CREAM; g.fillText('터프 라이엇  •  타이드워터 광장', ox + 320, 205 + 2);
     // splat accents
     blob(g, ox + 960, 70, 26, 5 + k, MUSTARD);
     blob(g, ox + 925, 110, 12, 7 + k, MUSTARD);
@@ -116,7 +116,7 @@ function drawShop(g, y0, font) {
     g.fillStyle = CORAL; roundRect(g, ox + 40, 30, 944, 150, 40); g.fill();
     g.fillStyle = CREAM; roundRect(g, ox + 54, 44, 916, 122, 30); g.fill();
     g.font = font(92); g.fillStyle = NAVY; g.textBaseline = 'middle';
-    g.fillText('TIDE SNACKS', ox + 250, 108);
+    g.fillText('타이드 스낵', ox + 250, 108);
     // ice-cream squid icon
     g.fillStyle = MUSTARD; g.beginPath(); g.moveTo(ox + 140, 150); g.lineTo(ox + 110, 90); g.lineTo(ox + 170, 90); g.closePath(); g.fill();
     squid(g, ox + 140, 86, 0.7, CORAL, CREAM);
@@ -133,8 +133,8 @@ function drawShipping(g, y0, font) {
     const ox = k * 1024;
     g.font = font(110); g.textBaseline = 'middle';
     g.fillStyle = 'rgba(251,245,232,0.92)';
-    g.fillText('KRAKEN', ox + 140, 110);
-    g.font = font(44); g.fillText('LINES  ~  SEA FREIGHT', ox + 150, 190);
+    g.fillText('크라켄', ox + 140, 110);
+    g.font = font(44); g.fillText('해운  ~  해상 화물', ox + 150, 190);
     // tentacle wave
     g.strokeStyle = 'rgba(251,245,232,0.92)'; g.lineWidth = 16; g.lineCap = 'round';
     g.beginPath(); g.moveTo(ox + 40, 140); g.bezierCurveTo(ox + 70, 60, ox + 120, 200, ox + 110, 70); g.stroke();
@@ -185,7 +185,7 @@ function stencil(g, str, x, y, size, color, { weight = 800, spacing = 0.08, alig
   g.save();
   g.translate(x, y);
   g.scale(size / 100, size / 100);
-  g.font = `${weight} 138px ${family}, "Arial Black", sans-serif`;
+  g.font = `${weight} 138px ${family}, "Noto Sans KR", "Arial Black", sans-serif`;
   g.textBaseline = 'alphabetic';
   g.fillStyle = color;
   if ('letterSpacing' in g) g.letterSpacing = `${spacing * 100}px`;
@@ -222,7 +222,7 @@ function drawCarDeck(g, r) {
     hatch(g, 12.7, -2.95, 14.05, -0.85, yellow);
     hatch(g, 14.95, -4.6, 15.95, -2.6, yellow);
     // KEEP CLEAR in the stair box, read by someone walking in from the ramp (facing -X)
-    g.save(); g.translate(13.38, -1.9); g.rotate(-Math.PI / 2); stencil(g, 'KEEP CLEAR', 0, 0, 0.19, 'rgba(241,237,228,0.85)', { spacing: 0.1 }); g.restore();
+    g.save(); g.translate(13.38, -1.9); g.rotate(-Math.PI / 2); stencil(g, '비워 두세요', 0, 0, 0.19, 'rgba(241,237,228,0.85)', { spacing: 0.1 }); g.restore();
     // lane numbers at the ramp end (read by drivers boarding, facing -X)
     for (const [z, n] of [[0, '2'], [2.9, '3']]) { g.save(); g.translate(15.15, z); g.rotate(-Math.PI / 2); stencil(g, n, 0, 0, 0.5, white); g.restore(); }
     // gangway landing: yellow / black hazard band on the open deck edge
@@ -306,7 +306,7 @@ function drawCabinSide(g, r) {
   liveryBand(g, 0, r.m[0], 0);
   // HALYARD wordmark in the navy skirt, flanked by the roundel
   g.save(); g.scale(1, -1);                                          // text wants y down
-  stencil(g, 'HALYARD', r.m[0] / 2, -0.31, 0.34, K.white, { family: '"Titan One"', weight: 400, spacing: 0.12 });
+  stencil(g, '홀리야드', r.m[0] / 2, -0.31, 0.34, K.white, { family: '"Titan One"', weight: 400, spacing: 0.12 });
   g.restore();
   for (const x of [r.m[0] / 2 - 2.35, r.m[0] / 2 + 2.35]) { g.save(); g.translate(x, 0.34); g.scale(1, -1); roundel(g, 0.25); g.restore(); }
   g.restore();
@@ -320,7 +320,7 @@ function drawCabinEnd(g, r) {
   // big roundel + wordmark in the 3.8 m left of the sun-deck stair
   g.save(); g.translate(1.9, 1.62); g.scale(1, -1); roundel(g, 0.56); g.restore();
   g.save(); g.scale(1, -1);
-  stencil(g, 'HALYARD', 1.9, -0.3, 0.3, K.white, { family: '"Titan One"', weight: 400, spacing: 0.1 });
+  stencil(g, '홀리야드', 1.9, -0.3, 0.3, K.white, { family: '"Titan One"', weight: 400, spacing: 0.1 });
   g.restore();
   g.restore();
   wear(g, r, { flecks: 70, fleck: [0.4, 1.1], scuffs: 10, scuff: [6, 14], seed: 13 });
