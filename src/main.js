@@ -142,7 +142,7 @@ class Game {
     try { await G.renderer.compileAsync(scene, camera); } catch { G.renderer.compile(scene, camera); }
     await progress(0.93, '준비 운동 중…');
     for (let i = 0; i < 3; i++) { this._frame(1 / 60); await nextFrame(); }
-    await progress(1, 'Ready!');
+    await progress(1, '준비 완료!');
     await new Promise((r) => setTimeout(r, 250));
 
     this.timer = new THREE.Timer(); this.timer.connect?.(document);
@@ -904,5 +904,5 @@ const game = new Game();
 game.boot().catch((e) => {
   console.error(e);
   const el = document.getElementById('boot-error');
-  if (el) { el.textContent = 'Something went wrong while loading: ' + e.message; el.style.display = 'block'; }
+  if (el) { el.textContent = '로딩 중 문제가 발생했습니다: ' + e.message; el.style.display = 'block'; }
 });
