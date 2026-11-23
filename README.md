@@ -19,7 +19,13 @@
 
 ## 스크린샷
 
-(배포 후 추가)
+| 타이틀 | 메인 메뉴 |
+| --- | --- |
+| ![타이틀](docs/screenshots/title.png) | ![메인 메뉴](docs/screenshots/menu.png) |
+
+| 스테이지 선택 | 인게임 |
+| --- | --- |
+| ![스테이지 선택](docs/screenshots/stage-select.png) | ![인게임](docs/screenshots/gameplay.png) |
 
 ## 설치 및 실행
 
